@@ -1,0 +1,42 @@
+body {
+  overflow-x: hidden;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 210px));
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  gap: 20px;
+  height: 100%;
+}
+.grid-container-weekDays {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(48px, 55px));
+  align-items: start;
+  justify-content: start;
+  gap: 10px;
+}
+.cards {
+  box-shadow: rgb(0 0 0 / 20%) 0px 1px 3px;
+  transition: all 0.2s ease-in-out 0s;
+}
+.cards:hover {
+  transform: scale(1.05);
+}
+.custom_shadows {
+  box-shadow: rgb(0 0 0 / 20%) 0px 1px 3px;
+}
+.custom_font {
+  font-family: "Satoshi", sans-serif;
+  font-weight: 800;
+  font-size: 3rem;
+}
+.custom_shadows {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+.css-1e6y48t-MuiButtonBase-root-MuiButton-root {
+  display: none !important;
+}
