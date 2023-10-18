@@ -14,7 +14,12 @@ const LoginUser = () => {
       return;
     }
     const { data, error } = await loginUser(email, password);
+    if(error)
+    {
+      console.log('Error in Login :\n',error);
+    }
     if (data) {
+      console.log("Login data :\n",data)
       if (data.user.user_metadata == "service_provider") {
         navigate("/dashboard/provider");
       } else {

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
 const ProviderDashboard = () => {
@@ -19,7 +19,7 @@ const ProviderDashboard = () => {
           <Link to="myAppointments">My Appointments</Link>
           <Link to="/">My Services</Link>
         </nav>
-        <Outlet />
+        <Outlet/>
       </>
     );
   };

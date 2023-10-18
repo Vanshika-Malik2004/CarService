@@ -16,6 +16,9 @@ const RegisterUser = () => {
       return;
     }
     const { data, error } = await signIn(email, password, role);
+    if(error){
+      console.log("Error in signup : \n",error);
+    }
     if (data) {
       console.log(data);
       if (data.user.user_metadata.role == "service_provider") {
