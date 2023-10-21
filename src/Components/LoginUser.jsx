@@ -11,6 +11,7 @@ const LoginUser = () => {
   const login = async (e) => {
     e.preventDefault();
     if (email == null || password == null) {
+      console.log("Email and Password can't be null")
       return;
     }
     const { data, error } = await loginUser(email, password);

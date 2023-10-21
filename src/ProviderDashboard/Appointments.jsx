@@ -84,13 +84,13 @@ export default function Appointments() {
 
     async function getAppointments() {
 
-      console.log('email',currentUser.email);
+      // console.log('email',currentUser.email);
       const id = await supabase.from('ServiceProvider').select('*').eq('email',currentUser.email);  
       
-      if(id.data)
-      console.log('id data',id.data);
-      else 
+      if(!id.data)
       console.log('id error: ',id.error);
+      // else 
+      // console.log('id data',id.data);
       
       const { data , error} = await supabase.from('AppointmentsTable').select().eq('ProviderId',id.data[0].id).eq('Status','Pending');
       
@@ -108,7 +108,7 @@ export default function Appointments() {
     const takeAction = async (id,action)=>
     {
       console.log(id);
-      const { data, error } = await supabase
+      const { error } = await supabase
       .from('AppointmentsTable')
       .update({ Status: action })
       .eq('id',id)
@@ -164,7 +164,7 @@ export default function Appointments() {
                                       <Button variant="contained" color="success" onClick={()=>takeAction(row['id'],'Completed')}>
                                         Completed
                                       </Button>
-                                      <Button variant="outlined" color="error" onClick={()=>takeAction(row['id'],'Cancel')}>
+                                      <Button variant="outlined" color="error" onClick={()=>takeAction(row['id'],'Canceled')}>
                                         Cancel
                                       </Button>
                                 {/* <button className="flex mb-1 dang" onClick={()=>takeAction(row['id'],'Completed')}>

@@ -23,10 +23,14 @@ import MyServices from "./ProviderDashboard/MyServices";
 import AddServcie from "./ProviderDashboard/AddServcie";
 import Appointments from "./ProviderDashboard/Appointments";
 import BookTimingComponent from "./Components/BookingTimingComponent";
+import BookAppointment from "./Components/BookAppointment";
+import CustomerAppointments from "./Components/CustomerAppointments";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
       <Route index element={<HomePage />} />
+      <Route path="/bookAppointment" element={<BookAppointment />} />
+      <Route path="/customer/myAppointments" element={<CustomerAppointments />} />
 
       <Route path="/createuser" element={<CreateAccount />}>
         <Route index element={<RegisterUser />} />
@@ -38,6 +42,7 @@ const router = createBrowserRouter(
       <Route path="/dashboard/user" element={<DashBoardConsumer />} />
       <Route path="/dashboard/provider" element={<ProviderDashboard />}>
         <Route index element={<MyServices />} />
+        <Route path="myServices" element={<MyServices />} />
         <Route path="addService" element={<AddServcie />} />
         <Route path="myAppointments" element={<Appointments />} />
       </Route>

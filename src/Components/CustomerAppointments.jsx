@@ -1,10 +1,3 @@
-// import React from "react";
-
-// const MyServices = () => {
-//   return <div>MyServices</div>;
-// };
-
-// export default MyServices;
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -21,32 +14,46 @@ import { Button } from '@mui/material';
 
 
 const columns = [
-  { id: 'SI', label: 'SI', minWidth: 70 },
+  { id: 'id', label: 'ID', minWidth: 70 },
+  { id: 'serviceID', label: 'Service ID', minWidth: 70 },
   {
-    id: 'Service Name',
-    label: 'Service Name',
-    minWidth: 170,
-    align: 'center',
-    format: (value) => value.toLocaleString('en-US'),
-  },
-  { id: 'ServiceID', label: 'Service ID', minWidth: 70 ,align:'center'},
-  {
-    id: 'Description',
-    label: 'Description',
+    id: 'consumerEmail',
+    label: 'Consumer Email',
     minWidth: 170,
     align: 'center',
     format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'Price',
-    label: 'Price',
+    id: 'consumerContactNumber',
+    label: 'Consumer Contact Number',
     minWidth: 170,
     align: 'center',
-
+    format: (value) => value.toLocaleString('en-US'),
+  },
+  {
+    id: 'AppointmentDate',
+    label: 'Appointment Date',
+    minWidth: 170,
+    align: 'center',
+    format: (value) => value.toLocaleString('en-US'),
+  },
+  {
+    id: 'AppointmentTime',
+    label: 'Appointment Time',
+    minWidth: 170,
+    align: 'center',
+    format: (value) => value.toLocaleString('en-US'),
+  },
+  {
+    id: 'Status',
+    label: 'Status',
+    minWidth: 170,
+    align: 'center',
+    format: (value) => value.toLocaleString('en-US'),
   },
   {
     id: 'action',
-    label: 'Remove Service',
+    label: 'Take Action',
     minWidth: 170,
     align: 'cetner',
   },
@@ -54,11 +61,11 @@ const columns = [
 ];
 
 
-export default function MyServices() {
+export default function CustomerAppointments() {
   const navigate = useNavigate();
   const [rows,setRows] = React.useState([])
+  const [rowsPending,setRowsPending] = React.useState([])
   
-  // return <div>the is my service component</div>
   const { signOutUser, currentUser, updateCurrentUser } =
     React.useContext(AuthContext);
 
@@ -71,38 +78,44 @@ export default function MyServices() {
         // console.log(tempUser.email);
         // console.log(currentUser);
       }
-      getServices();
+      getAppointments(tempUser.email);
+
     },[]);
 
-    async function getServices() {
+    async function getAppointments(email) {
 
-      // console.log('email',currentUser.email);
-      const id = await supabase.from('ServiceProvider').select('*').eq('email',currentUser.email);  
+    //   console.log('email',currentUser.email);
+    //   const id = await supabase.from('ServiceProvider').select('*').eq('email',currentUser.email);  
       
-      if(!id.data)
-      console.log('id error: ',id.error);
+    //   if(!id.data)
+    //   console.log('id error: ',id.error);
       // else 
       // console.log('id data',id.data);
       
-      const { data , error} = await supabase.from('ServicesTable').select().eq('ProviderID',id.data[0].id);
+      const { data , error} = await supabase.from('AppointmentsTable').select().eq('consumerEmail',email).eq('Status','Pending');
       
       if(!data)
       console.log('data error: ',error);
-      // else 
-      // console.log('data',data);
-
-      setRows(data)
+      else 
+      console.log('data',data);
+    
+    setRowsPending((data.length)?data:null)
+    // console.log('rows',data)
+    const rowsData = await supabase.from('AppointmentsTable').select().eq('consumerEmail',email).neq('Status','Pending');
+    setRows(rowsData.data)
+    // console.log(providerId)
     }
 
-    const takeAction = async (id)=>
+    const takeAction = async (id,action)=>
     {
-      // console.log(id);
+      console.log(id);
       const { error } = await supabase
-      .from('ServicesTable')
-      .delete()
-      .eq('ServiceID',id)
-      if(error)console.log("delete error",error)
-      else getServices()
+      .from('AppointmentsTable')
+      .update({ Status: action })
+      .eq('id',id)
+      .select()
+      if(error)console.log("update error",error)
+      else getAppointments(currentUser.email)
     }
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -117,10 +130,11 @@ export default function MyServices() {
   };
 
   return (
+    currentUser && 
     <>
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 440 }}>
-        Listed Services
+        Booked Appointments
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -136,15 +150,12 @@ export default function MyServices() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows && rows
+            {rowsPending && rowsPending
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row,index) => {
+              .map((row) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    <TableCell key='index' align='left'>
-                      {index+1}
-                    </TableCell>
-                    {columns.slice(1).map((column) => {
+                    {columns.map((column) => {
                       const value = row[column.id];
                       return (
                         
@@ -152,8 +163,11 @@ export default function MyServices() {
                           {
                             (column.id === 'action')?
                             (<div className='flex flex-col gap-2'>
-                                      <Button variant="outlined" color="error" onClick={()=>takeAction(row['ServiceID'])}>
-                                        Remove
+                                      {/* <Button variant="contained" color="success" onClick={()=>takeAction(row['id'],'Completed')}>
+                                        Completed
+                                      </Button> */}
+                                      <Button variant="outlined" color="error" onClick={()=>takeAction(row['id'],'Canceled')}>
+                                        Cancel
                                       </Button>
                                 {/* <button className="flex mb-1 dang" onClick={()=>takeAction(row['id'],'Completed')}>
                                   Completed
@@ -178,7 +192,68 @@ export default function MyServices() {
               }
           </TableBody>
         </Table>
-            {(!rows) && 
+            {(!rowsPending) && 
+              <div className='flex  justify-evenly'>
+               No Data To Show
+              </div>
+            }
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={(rowsPending)?rowsPending.length:0}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </Paper>
+
+
+    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <TableContainer sx={{ maxHeight: 440 }}>
+      Completed and Canceled Appointments
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              {(columns.slice(0,-1)).map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows && rows
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row) => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    {columns.slice(0,-1).map((column) => {
+                      const value = row[column.id];
+                      return (
+                        
+                        <TableCell key={column.id} align={column.align}>
+                          {
+                            column.format && typeof value === 'number'
+                            ? column.format(value)
+                            : value}
+                        </TableCell>
+                      );
+                    })}
+                    <TableCell key=''></TableCell>
+                  </TableRow>
+                );
+              })
+              
+              }
+          </TableBody>
+        </Table>
+            {!rows && 
               <div className='flex  justify-evenly'>
                No Data To Show
               </div>
