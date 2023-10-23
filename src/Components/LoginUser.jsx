@@ -21,7 +21,7 @@ const LoginUser = () => {
     }
     if (data) {
       console.log("Login data :\n",data)
-      if (data.user.user_metadata == "service_provider") {
+      if (data.user.user_metadata.role == "service_provider") {
         navigate("/dashboard/provider");
       } else {
         navigate("/dashboard/user");

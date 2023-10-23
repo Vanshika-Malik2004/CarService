@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Typography } from "@mui/material";
 const DashBoardConsumer = () => {
   const navigate = useNavigate();
   const { signOutUser, currentUser, updateCurrentUser } =
@@ -9,11 +10,22 @@ const DashBoardConsumer = () => {
     await signOutUser();
     navigate("/login/user");
   };
+
   const renderData = () => {
     return (
       <div>
-        <p>"ConsumerDashBoard"</p>
-        <button onClick={loggOut}>loggOut</button>
+      <div className="flex justify-between m-3 p-2">
+          <Typography>Consumer Dashboard</Typography>
+          
+          <button onClick={loggOut}>loggOut</button>
+        </div>
+      <nav className="flex justify-evenly m-5">
+          <Link to="bookAppointment">Book Appointment</Link>
+          <Link to="myAppointments">My Appointments</Link>
+          {(currentUser.user_metadata.role == 'service_provider') &&
+          <Link to="/dashboard/provider">Provider Dashboard</Link>}
+        </nav>
+        <Outlet/>
       </div>
     );
   };
@@ -22,6 +34,7 @@ const DashBoardConsumer = () => {
     if (!tempUser) {
       navigate("/login/user");
     } else {
+      console.log(tempUser);
       updateCurrentUser(tempUser);
     }
   }, []);
