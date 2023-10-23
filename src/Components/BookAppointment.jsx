@@ -96,11 +96,11 @@ export default function BookAppointment() {
     const book = async (row,date,time)=>
     {
       console.log(row);
-      
+      console.log(currentUser);
       const { error } = await supabase
         .from('AppointmentsTable')
         .insert([
-          { ProviderId: row.ProviderID, serviceID: row.ServiceID, consumerEmail:currentUser.email,consumerContactNumber:currentUser.phone,
+          { ProviderId: row.ProviderID, serviceID: row.ServiceID, consumerEmail:currentUser.email,consumerContactNumber:currentUser.user_metadata.phone,
             AppointmentDate: date,AppointmentTime:time,
         Status:'Pending'},
         ])

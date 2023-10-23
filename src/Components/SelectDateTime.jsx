@@ -36,7 +36,7 @@ const SelectDateTime = ({book}) => {
           onChange={(newValue) => {setDate(newValue)}}
         />
         <TimePicker
-          label="Secect Time"
+          label="Select Time"
           onChange={(newValue) => {setTime((new Date(newValue)).toLocaleTimeString('en-US'));}}
         />
 

@@ -6,16 +6,17 @@ import { AuthContext } from "../context/AuthProvider";
 const RegisterUser = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const [phone, setPhone] = useState(null);
   const [role, setRole] = useState(null);
   const { currentUser, signOutUser, signIn, loginUser } =
     useContext(AuthContext);
   const navigate = useNavigate();
   const register = async (e) => {
     e.preventDefault();
-    if (email == null || password == null) {
+    if (email == null || password == null || phone==null) {
       return;
     }
-    const { data, error } = await signIn(email, password, role);
+    const { data, error } = await signIn(email, password,phone, role);
     if(error){
       console.log("Error in signup : \n",error);
     }
@@ -51,6 +52,20 @@ const RegisterUser = () => {
                 className="border border-black-100 p-2 w-60"
                 onChange={(e) => {
                   setEmail(e.target.value);
+                }}
+              />
+            </div>
+            <div>
+              <label>Phone no</label>
+              <br />
+              <input
+                required
+                type="text"
+                placeholder="enter phone no"
+                value={phone}
+                className="border border-black-100 p-2 w-60"
+                onChange={(e) => {
+                  setPhone(e.target.value);
                 }}
               />
             </div>

@@ -4,12 +4,16 @@ import { supabase } from "../SupabaseConfig";
 const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const signIn = async (email, password, role) => {
+  const signIn = async (email, password,phone, role) => {
+    console.log({email: email,
+      password: password,
+      phone:phone})
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
       options: {
         data: {
+          phone:phone,
           role: role,
         },
       },

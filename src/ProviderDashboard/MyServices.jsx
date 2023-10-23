@@ -1,10 +1,3 @@
-// import React from "react";
-
-// const MyServices = () => {
-//   return <div>MyServices</div>;
-// };
-
-// export default MyServices;
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -17,7 +10,10 @@ import TableRow from '@mui/material/TableRow';
 import { supabase } from '../SupabaseConfig';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthProvider';
-import { Button } from '@mui/material';
+import { Button , Modal} from '@mui/material';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import CreateNewService from '../Components/CreateNewService';
 
 
 const columns = [
@@ -57,6 +53,7 @@ const columns = [
 export default function MyServices() {
   const navigate = useNavigate();
   const [rows,setRows] = React.useState([])
+  const [pid,setPid] = React.useState(null)
   
   // return <div>the is my service component</div>
   const { signOutUser, currentUser, updateCurrentUser } =
@@ -83,7 +80,8 @@ export default function MyServices() {
       console.log('id error: ',id.error);
       // else 
       // console.log('id data',id.data);
-      
+      setPid(id.data[0].id);
+
       const { data , error} = await supabase.from('ServicesTable').select().eq('ProviderID',id.data[0].id);
       
       if(!data)
@@ -115,10 +113,25 @@ export default function MyServices() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
+  const [open,setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  
   return (
     <>
+    <Modal
+        open={open}
+        onClose={()=>handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <CreateNewService handleClose={()=>{handleClose();}} pid={pid} success={()=>{getServices();}}/>
+      </Modal>
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    
+   {pid && <Fab color="primary" style={{ position:'fixed', bottom: 50, right:50}} onClick={handleOpen}>
+      <AddIcon />
+    </Fab>}
       <TableContainer sx={{ maxHeight: 440 }}>
         Listed Services
         <Table stickyHeader aria-label="sticky table">
