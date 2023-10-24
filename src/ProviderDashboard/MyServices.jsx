@@ -14,6 +14,7 @@ import { Button , Modal} from '@mui/material';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import CreateNewService from '../Components/CreateNewService';
+import { toast } from 'react-toastify';
 
 
 const columns = [
@@ -62,7 +63,18 @@ export default function MyServices() {
     React.useEffect(() => {
       const tempUser = JSON.parse(sessionStorage.getItem("currentUser"));
       if (!tempUser) {
-        navigate("/createuser");
+          toast.error('First Login !', {
+          toastId:'FirstLogin',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+        navigate("/login/user");
       } else {
         updateCurrentUser(tempUser);
         // console.log(tempUser.email);
@@ -76,18 +88,43 @@ export default function MyServices() {
       // console.log('email',currentUser.email);
       const id = await supabase.from('ServiceProvider').select('*').eq('email',currentUser.email);  
       
-      if(!id.data)
+      if(id.error)
+      {
       console.log('id error: ',id.error);
-      // else 
-      // console.log('id data',id.data);
+      
+        toast.error('Some thing went wrong !\n'+id.error, {
+          toastId:'MyServiceIdError',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        }); 
+        // console.log('id data',id.data);
+      }
       setPid(id.data[0].id);
-
+      
       const { data , error} = await supabase.from('ServicesTable').select().eq('ProviderID',id.data[0].id);
       
       if(!data)
-      console.log('data error: ',error);
-      // else 
-      // console.log('data',data);
+      {
+        console.log('data error: ',error);
+        toast.error('Some thing went wrong !\n'+error, {
+          toastId:'MyServiceDataError',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          }); 
+          // console.log('data',data);
+      } 
 
       setRows(data)
     }
@@ -99,8 +136,38 @@ export default function MyServices() {
       .from('ServicesTable')
       .delete()
       .eq('ServiceID',id)
-      if(error)console.log("delete error",error)
-      else getServices()
+      if(error)
+      {
+        console.log("update error",error)
+        toast.error('Error '+error, {
+          toastId:'MyServicesUpdateError',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+      }
+      else
+      {
+        toast.success('Service removed successfully !', {
+          toastId:'MyServicesUpdateSuccess',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          }); 
+          console.log("delete error",error)
+          getServices();
+      }
+      
     }
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);

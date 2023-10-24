@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthProvider';
 import { Button, Modal } from '@mui/material';
 import SelectDateTime from './SelectDateTime';
+import { toast } from 'react-toastify';
 
 
 const columns = [
@@ -71,6 +72,17 @@ export default function BookAppointment() {
   React.useEffect(() => {
       const tempUser = JSON.parse(sessionStorage.getItem("currentUser"));
       if (!tempUser) {
+        toast.error('First Login !', {
+          toastId:'FirstLogin',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
         navigate("/createuser");
       } else {
         updateCurrentUser(tempUser);
@@ -85,10 +97,21 @@ export default function BookAppointment() {
       
       const { data , error} = await supabase.from('ServicesTable').select('* , ServiceProvider(*)');
       
-      if(!data)
+      if(!data){
       console.log('data error: ',error);
-      else 
-      console.log('data',data);
+        toast.error('Error !\n'+error, {
+          toastId:'ServicesTableError',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+        console.log('data',data);
+      }
       data.forEach((row)=>row['name']=row.ServiceProvider.name)
       setRows(data)
     }
@@ -106,7 +129,34 @@ export default function BookAppointment() {
         ])
         .select()
 
-      if(error)console.log("error in booking appointment",error)
+      if(error)
+      {
+        toast.error('Error !\n'+error, {
+          toastId:'AppointmentBookError',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+          console.log("error in booking appointment",error)
+        }else{
+        toast.success('Appointment Booked Successfully !', {
+          toastId:'AppointBooked',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+        
+      }
       handleClose();
     }
     const takeAction = async (row)=>

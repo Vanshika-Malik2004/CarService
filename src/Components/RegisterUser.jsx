@@ -3,6 +3,7 @@ import ServiceImg from "../assets/service.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../SupabaseConfig";
 import { AuthContext } from "../context/AuthProvider";
+import { toast } from "react-toastify";
 const RegisterUser = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -14,14 +15,47 @@ const RegisterUser = () => {
   const register = async (e) => {
     e.preventDefault();
     if (email == null || password == null || phone==null) {
+      toast.error("All the fields are cumpulsory !"+error, {
+        toastId:'RegisterNullError',
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
       return;
     }
     const { data, error } = await signIn(email, password,phone, role);
     if(error){
+      toast.error("Error in signup : \n"+error, {
+        toastId:'SignUpError',
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
       console.log("Error in signup : \n",error);
     }
     if (data) {
       console.log(data);
+        toast.success('Registered Successfully !', {
+        toastId:'RegisteredSuccessfully',
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
       if (data.user.user_metadata.role == "service_provider") {
         navigate("/manage/business");
       } else {
@@ -110,6 +144,9 @@ const RegisterUser = () => {
               Create Account
             </button>
           </form>
+          <button className="bg-red-500 py-2 px-11 w-full text-white" onClick={()=>navigate("/login/user")}>
+           Already have an account, Login
+          </button>
         </div>
         {/*the image*/}
         <img src={ServiceImg} />

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
 import { supabase } from "../SupabaseConfig";
 import { Box } from "@mui/material";
+import { toast } from "react-toastify";
 
 
 const lableClass = "font-sans	font-medium font text-lg m-4";
@@ -42,12 +43,34 @@ const CreateNewService = ({handleClose,pid,success}) => {
       .insert([sendData])
       .select();
     if (data) {
+        toast.success('Service added successfully !', {
+          toastId:'ServiceAdded',
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        }); 
         success();
-    //   console.log("data", data);
-    } 
-    // else {
-    //   console.log("error", error);
-    // }
+        //   console.log("data", data);
+      } 
+      else {
+        toast.error('Some thing went wrong !\n'+error ,{
+          toastId:'NewServiceError',
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        }); 
+      console.log("error", error);
+    }
     
     handleClose();
   };

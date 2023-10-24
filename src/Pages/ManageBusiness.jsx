@@ -3,6 +3,7 @@ import WeekDayButton from "../Components/WeekDayButton";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
 import { supabase } from "../SupabaseConfig";
+import { toast } from "react-toastify";
 const weekDays = [
   { value: "monday", tag: "M", isSelected: false },
   { value: "tuesday", tag: "T", isSelected: false },
@@ -30,6 +31,17 @@ const ManageBusiness = () => {
   const [email, setEmail] = useState();
   const loggOut = async () => {
     await signOutUser();
+    toast.success('Logged out successfully !', {
+      toastId:'Logout',
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
     navigate("/login/user");
   };
 
@@ -61,21 +73,55 @@ const ManageBusiness = () => {
         .insert([timeSlotData])
         .select();
       if (t.data) {
+        toast.success('Successfully registered busiess !', {
+          toastId:'SuccessfullyRegisteredBusiness',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
         console.log(t.data);
       } else {
-        console.log(t.error);
-      }
-      navigate("");
-    } else {
+        toast.error('Error !\n'+t.error, {
+          toastId:'ManageBusinessRegisterError',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+          console.log(t.error);
+        }
+        navigate("dashboard/provider/");
+      } else {
+      toast.error('Error !\n'+error, {
+        toastId:'ManageBusinessSecondError',
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
       console.log("error", error);
     }
   };
   const renderWeekDays = () => {
     return (
       <div className="grid-container-weekDays w-full">
-        {weekDays.map((day) => {
+        {weekDays.map((day,ind) => {
           return (
             <WeekDayButton
+              key={ind}
               weekDay={day}
               setWorkingDays={setWorkingDays}
               workingDays={workingDays}

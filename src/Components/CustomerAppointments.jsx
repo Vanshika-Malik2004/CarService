@@ -11,6 +11,7 @@ import { supabase } from '../SupabaseConfig';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthProvider';
 import { Button } from '@mui/material';
+import { toast } from 'react-toastify';
 
 
 const columns = [
@@ -72,6 +73,17 @@ export default function CustomerAppointments() {
     React.useEffect(() => {
       const tempUser = JSON.parse(sessionStorage.getItem("currentUser"));
       if (!tempUser) {
+        toast.error('First Login !', {
+          toastId:'FirstLogin',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
         navigate("/createuser");
       } else {
         updateCurrentUser(tempUser);
@@ -94,14 +106,40 @@ export default function CustomerAppointments() {
       
       const { data , error} = await supabase.from('AppointmentsTable').select().eq('consumerEmail',email).eq('Status','Pending');
       
-      if(!data)
-      console.log('data error: ',error);
-      else 
-      console.log('data',data);
-    
-    setRowsPending((data.length)?data:null)
-    // console.log('rows',data)
-    const rowsData = await supabase.from('AppointmentsTable').select().eq('consumerEmail',email).neq('Status','Pending');
+      if(!data){
+      {
+        toast.error('Error !\n'+error, {
+          toastId:'CustomerAppointmentError',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+        console.log('data',data);
+        }
+      }
+      setRowsPending((data.length)?data:null)
+      // console.log('rows',data)
+      const rowsData = await supabase.from('AppointmentsTable').select().eq('consumerEmail',email).neq('Status','Pending');
+      if(rowsData.error) 
+      {
+        toast.error('Error !\n'+rowsData.error, {
+          toastId:'CustomerAppointmentRowDataError',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+        console.log('data',data);
+      }
     setRows(rowsData.data)
     // console.log(providerId)
     }
@@ -114,8 +152,37 @@ export default function CustomerAppointments() {
       .update({ Status: action })
       .eq('id',id)
       .select()
-      if(error)console.log("update error",error)
-      else getAppointments(currentUser.email)
+      if(error)
+      {
+        toast.error('Error '+error, {
+          toastId:'CustomerAppointmentDataError',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+        console.log("update error",error)
+      }
+      else
+      {
+        toast.success(action+' successfully !', {
+          toastId:"CustomerAction",
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          }); 
+      }
+      
+      getAppointments(currentUser.email)
     }
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);

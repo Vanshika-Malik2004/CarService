@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ServiceImg from "../assets/service.svg";
 import { supabase } from "../SupabaseConfig";
 import { AuthContext } from "../context/AuthProvider";
+import { toast } from "react-toastify";
 const LoginUser = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -11,16 +12,50 @@ const LoginUser = () => {
   const login = async (e) => {
     e.preventDefault();
     if (email == null || password == null) {
+      toast.error("Email and Password can't be null", {
+        toastId:'LoginNullError',
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+
       console.log("Email and Password can't be null")
       return;
     }
     const { data, error } = await loginUser(email, password);
     if(error)
     {
+      toast.error('Error in Login :\n'+error, {
+        toastId:"ErrorInLogin",
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
       console.log('Error in Login :\n',error);
     }
     if (data) {
-      console.log("Login data :\n",data)
+      // console.log("Login data :\n",data)
+      toast.success('Welcome back !', {
+        toastId:'WelcomeBack',
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
       if (data.user.user_metadata.role == "service_provider") {
         navigate("/dashboard/provider");
       } else {
@@ -69,6 +104,9 @@ const LoginUser = () => {
             </div>
             <button className="bg-red-500 py-2 px-11 text-white">login</button>
           </form>
+            <button className="bg-red-500 py-2 px-11 w-full text-white" onClick={()=>navigate("/createuser")}>
+            Don't have an account, Register
+            </button>
         </div>
         {/*the image*/}
         <img src={ServiceImg} />

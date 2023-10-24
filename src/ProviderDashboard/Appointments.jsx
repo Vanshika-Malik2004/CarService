@@ -11,6 +11,7 @@ import { supabase } from '../SupabaseConfig';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthProvider';
 import { Button } from '@mui/material';
+import { toast } from 'react-toastify';
 
 
 const columns = [
@@ -73,7 +74,18 @@ export default function Appointments() {
     React.useEffect(() => {
       const tempUser = JSON.parse(sessionStorage.getItem("currentUser"));
       if (!tempUser) {
-        navigate("/createuser");
+        toast.error('First Login !', {
+          toastId:'FirstLogin',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+        navigate("/login/user");
       } else {
         updateCurrentUser(tempUser);
         // console.log(tempUser.email);
@@ -88,15 +100,44 @@ export default function Appointments() {
       const id = await supabase.from('ServiceProvider').select('*').eq('email',currentUser.email);  
       
       if(!id.data)
+      {
+             
       console.log('id error: ',id.error);
-      // else 
-      // console.log('id data',id.data);
-      
-      const { data , error} = await supabase.from('AppointmentsTable').select().eq('ProviderId',id.data[0].id).eq('Status','Pending');
-      
-      if(data)
-      console.log('data',data);
-    else console.log('data error: ',error);
+    
+        toast.error('Some thing went wrong !\n'+id.error, {
+          toastId:'AppointmentsIdError',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          }); 
+        }
+        // console.log('id data',id.data);
+        
+        const { data , error} = await supabase.from('AppointmentsTable').select().eq('ProviderId',id.data[0].id).eq('Status','Pending');
+        
+        if(data)
+        console.log('data',data);
+      else 
+      {
+
+        console.log('data error: ',error);
+        toast.error('Some thing went wrong !\n'+error, {
+          toastId:'AppointmentsProviderDataError',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          }); 
+      }
     
     setRowsPending((data.length)?data:null)
     // console.log('rows',data)
@@ -113,8 +154,36 @@ export default function Appointments() {
       .update({ Status: action })
       .eq('id',id)
       .select()
-      if(error)console.log("update error",error)
-      else getAppointments()
+      if(error)
+      {
+        // console.log("update error",error)
+        toast.error('Error '+error, {
+          toastId:'AppointmentsProviderError',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+      }
+      else
+      {
+        toast.success(action+' successfully !', {
+          toastId:'AppointmentActionSuccess',
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          }); 
+       getAppointments()
+      }
     }
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
