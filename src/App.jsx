@@ -25,6 +25,8 @@ import Appointments from "./ProviderDashboard/Appointments";
 import BookTimingComponent from "./Components/BookingTimingComponent";
 import BookAppointment from "./Components/BookAppointment";
 import CustomerAppointments from "./Components/CustomerAppointments";
+import AllServiceProviders from "./Pages/AllServiceProviders";
+import AllServices from "./Pages/AllServices";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
@@ -37,22 +39,22 @@ const router = createBrowserRouter(
         <Route path="user" element={<LoginUser />} />
       </Route>
       <Route path="/manage/business" element={<ManageBusiness />} />
-    <Route path="/dashboard">
+      <Route path="/dashboard">
+        <Route path="user" element={<DashBoardConsumer />}>
+          <Route path="allServices" element={<AllServiceProviders />} />
+          <Route path="bookAppointment" element={<BookAppointment />} />
+          <Route path="myAppointments" element={<CustomerAppointments />} />
+          <Route path="serviceList" element={<AllServices />} />
+        </Route>
 
-      <Route path="user" element={<DashBoardConsumer />} >
-        <Route index element={<HomePage/>}/>
-        <Route path="bookAppointment" element={<BookAppointment />} />
-        <Route path="myAppointments" element={<CustomerAppointments />} />
+        <Route path="provider" element={<ProviderDashboard />}>
+          <Route index element={<MyServices />} />
+          <Route path="manageBusiness" element={<ManageBusiness />} />
+          {/* <Route path="myServices" element={<MyServices />} /> */}
+          <Route path="addService" element={<AddServcie />} />
+          <Route path="myAppointments" element={<Appointments />} />
+        </Route>
       </Route>
-
-      <Route path="provider" element={<ProviderDashboard />}>
-        <Route index element={<MyServices />} />
-        <Route path="manageBusiness" element={<ManageBusiness />} />
-        {/* <Route path="myServices" element={<MyServices />} /> */}
-        <Route path="addService" element={<AddServcie />} />
-        <Route path="myAppointments" element={<Appointments />} />
-      </Route>
-    </Route>
       <Route path="timeSlot" element={<BookTimingComponent />} />
       <Route path="/calender" element={<Calender />} />
     </Route>
