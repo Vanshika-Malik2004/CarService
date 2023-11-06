@@ -36,8 +36,8 @@ const DashBoardConsumer = () => {
       <nav className="flex justify-evenly m-5">
           <Link to="bookAppointment">Book Appointment</Link>
           <Link to="myAppointments">My Appointments</Link>
-          {(currentUser.user_metadata.role == 'service_provider') &&
-          <Link to="/dashboard/provider">Provider Dashboard</Link>}
+          {/* {(currentUser.user_metadata.role == 'service_provider') &&
+          <Link to="/dashboard/provider">Provider Dashboard</Link>} */}
         </nav>
         <Outlet/>
       </div>

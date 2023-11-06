@@ -43,8 +43,8 @@ const LoginUser = () => {
         });
       console.log('Error in Login :\n',error);
     }
-    if (data) {
-      // console.log("Login data :\n",data)
+    else {
+      console.log("Login data :\n",data)
       toast.success('Welcome back !', {
         toastId:'WelcomeBack',
         position: "top-right",

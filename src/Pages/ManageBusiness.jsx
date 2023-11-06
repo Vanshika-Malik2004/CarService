@@ -99,7 +99,7 @@ const ManageBusiness = () => {
           });
           console.log(t.error);
         }
-        navigate("dashboard/provider/");
+        navigate("/dashboard/provider/");
       } else {
       toast.error('Error !\n'+error, {
         toastId:'ManageBusinessSecondError',

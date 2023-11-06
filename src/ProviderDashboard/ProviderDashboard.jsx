@@ -36,10 +36,10 @@ const ProviderDashboard = () => {
         </div>
         <nav className="flex justify-evenly m-5">
           <Link to="manageBusiness">Manage Buisness</Link>
-          <Link to="addService">My Services</Link>
+          <Link to="myServices">My Services</Link>
           <Link to="myAppointments">My Appointments</Link>
-          <Link to="/">My Services</Link>
-          <Link to="/dashboard/user">Go to User Dashboard</Link>
+          {/* <Link to="/">My Services</Link> */}
+          {/* <Link to="/dashboard/user">Go to User Dashboard</Link> */}
         </nav>
         <Outlet />
       </>
