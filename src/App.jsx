@@ -50,8 +50,8 @@ const router = createBrowserRouter(
         <Route path="provider" element={<ProviderDashboard />}>
           <Route index element={<MyServices />} />
           <Route path="manageBusiness" element={<ManageBusiness />} />
-          {/* <Route path="myServices" element={<MyServices />} /> */}
-          <Route path="addService" element={<AddServcie />} />
+          <Route path="myServices" element={<MyServices />} />
+          {/* <Route path="addService" element={<AddServcie />} /> */}
           <Route path="myAppointments" element={<Appointments />} />
         </Route>
       </Route>
