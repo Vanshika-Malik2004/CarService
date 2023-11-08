@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { supabase } from "../SupabaseConfig";
 import BackgroundImage from "../assets/auto-repair-chicago.jpg";
+import ProviderCard from "../Components/ProviderCard";
 const AllServiceProviders = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [providerList, setProviderList] = useState(null);
@@ -46,6 +47,13 @@ const AllServiceProviders = () => {
             </button>
           </div>
         </div>
+      </div>
+      <div className="grid-container">
+        {providerList
+          ? providerList.map((f) => {
+              return <ProviderCard id={f.id} name={f.name} address={f.city} />;
+            })
+          : null}
       </div>
     </div>
   );
