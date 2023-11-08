@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
 import { supabase } from "../SupabaseConfig";
 import { toast } from "react-toastify";
+import { GetState } from "react-country-state-city";
+import { GetCity } from "react-country-state-city";
 const weekDays = [
   { value: "monday", tag: "M", isSelected: false },
   { value: "tuesday", tag: "T", isSelected: false },
@@ -23,16 +25,29 @@ const ManageBusiness = () => {
   const [ownerName, setOwnerName] = useState(null);
   const [contactNumber, setContactNumber] = useState(null);
   const [city, setCity] = useState(null);
+  const [state, setState] = useState(null);
   const [pin, setPin] = useState(null);
   const [address, setAddress] = useState(null);
   const [workingDays, setWorkingDays] = useState([]);
   const [openTime, setOpenTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [email, setEmail] = useState();
+
+  const [countryid, setCountryid] = useState(101); // setting defalut country to india
+  const [stateid, setStateid] = useState(null);
+  const [cityid, setCityid] = useState(null);
+  
+  const [stateIndex, setStateIndex] = useState(null);
+  const [cityIndex, setCityIndex] = useState(null);
+
+  const [countriesList, setCountriesList] = useState([]);
+  const [stateList, setStateList] = useState([]);
+  const [cityList, setCityList] = useState([]);
+
   const loggOut = async () => {
     await signOutUser();
-    toast.success('Logged out successfully !', {
-      toastId:'Logout',
+    toast.success("Logged out successfully !", {
+      toastId: "Logout",
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -41,7 +56,7 @@ const ManageBusiness = () => {
       draggable: true,
       progress: undefined,
       theme: "colored",
-      });
+    });
     navigate("/login/user");
   };
 
@@ -52,6 +67,7 @@ const ManageBusiness = () => {
       email: email,
       address: address,
       pincode: pin,
+      state: state,
       city: city,
       OwnerName: ownerName,
       ContactNumber: contactNumber,
@@ -73,8 +89,8 @@ const ManageBusiness = () => {
         .insert([timeSlotData])
         .select();
       if (t.data) {
-        toast.success('Successfully registered busiess !', {
-          toastId:'SuccessfullyRegisteredBusiness',
+        toast.success("Successfully registered busiess !", {
+          toastId: "SuccessfullyRegisteredBusiness",
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -83,11 +99,11 @@ const ManageBusiness = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
-          });
+        });
         console.log(t.data);
       } else {
-        toast.error('Error !\n'+t.error, {
-          toastId:'ManageBusinessRegisterError',
+        toast.error("Error !\n" + t.error, {
+          toastId: "ManageBusinessRegisterError",
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -96,13 +112,13 @@ const ManageBusiness = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
-          });
-          console.log(t.error);
-        }
-        navigate("/dashboard/provider/");
-      } else {
-      toast.error('Error !\n'+error, {
-        toastId:'ManageBusinessSecondError',
+        });
+        console.log(t.error);
+      }
+      navigate("/dashboard/provider/");
+    } else {
+      toast.error("Error !\n" + error, {
+        toastId: "ManageBusinessSecondError",
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -111,14 +127,14 @@ const ManageBusiness = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
-        });
+      });
       console.log("error", error);
     }
   };
   const renderWeekDays = () => {
     return (
       <div className="grid-container-weekDays w-full">
-        {weekDays.map((day,ind) => {
+        {weekDays.map((day, ind) => {
           return (
             <WeekDayButton
               key={ind}
@@ -221,17 +237,49 @@ const ManageBusiness = () => {
                 }}
               />
             </label>
+            {/*STATE  */}
+            <label className={lableClass}>
+              State
+              <select
+                onChange={(e) => {
+                  const state = stateList[e.target.value]; //here you will get full state object.
+                  setStateid(state.id);
+                  setState(state.name)
+                  setStateIndex(e.target.value);
+                  GetCity(countryid, state.id).then((result) => {
+                    setCityList(result);
+                  });
+                }}
+                value={stateIndex}
+              >
+                {stateList.map((item, index) => {
+                  return (
+                    <option key={index} value={index}>
+                      {item.name}
+                    </option>
+                  );
+                })}
+              </select>
+            </label>
             {/*CITY TIME */}
             <label className={lableClass}>
               City
-              <input
-                type="text"
-                className={inputClass}
-                value={city}
+              <select
                 onChange={(e) => {
-                  setCity(e.target.value);
+                  const city = cityList[e.target.value]; //here you will get full city object.
+                  setCity(city.name);
+                  setCityid(city.id);
+                  setCityIndex(e.target.value)
+
                 }}
-              />
+                value={cityIndex}
+              >
+                {cityList.map((item, index) => (
+                  <option key={index} value={index}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
             </label>
             {/*sTART TIME */}
             <label className={lableClass}>
@@ -272,6 +320,17 @@ const ManageBusiness = () => {
   };
 
   useEffect(() => {
+    // GetCountries().then((result) => {
+    //   setCountriesList(result);
+    // });
+
+    GetState(countryid).then((result) => {
+      setStateList(result);
+    });
+    GetCity(countryid, stateid).then((result) => {
+      setCityList(result);
+    });
+
     const tempUser = JSON.parse(sessionStorage.getItem("currentUser"));
     if (!tempUser) {
       navigate("/createuser");

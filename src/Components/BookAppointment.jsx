@@ -97,7 +97,7 @@ export default function BookAppointment() {
       
       const { data , error} = await supabase.from('ServicesTable').select('* , ServiceProvider(*)');
       
-      if(!data){
+      if(error){
       console.log('data error: ',error);
         toast.error('Error !\n'+error, {
           toastId:'ServicesTableError',
@@ -112,6 +112,7 @@ export default function BookAppointment() {
           });
         console.log('data',data);
       }
+      console.log(data)
       data.forEach((row)=>row['name']=row.ServiceProvider.name)
       setRows(data)
     }
@@ -167,7 +168,7 @@ export default function BookAppointment() {
     }
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(2);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -210,10 +211,11 @@ export default function BookAppointment() {
             {rows && rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row,index) => {
+                console.log(row);
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                     <TableCell key='index' align='left'>
-                      {index+1}
+                      {(page)*rowsPerPage+index+1}
                     </TableCell>
                     {columns.slice(1).map((column) => {
                       const value = row[column.id];
