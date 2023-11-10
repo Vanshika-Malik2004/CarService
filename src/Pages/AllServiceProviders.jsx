@@ -115,7 +115,7 @@ const AllServiceProviders = () => {
         >
           <option
             selected
-            className=" text-sm bg-gray-700  dark:text-gray-200   hover:bg-gray-600 hover:text-white "
+            className=" text-sm bg-gray-700  dark:text-gray-200    hover:bg-gray-600 hover:text-white "
           >
             Choose a city
           </option>
