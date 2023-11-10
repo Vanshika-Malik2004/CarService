@@ -11,6 +11,9 @@ const AllServiceProviders = () => {
   const [stateid, setStateid] = useState(null);
   const [cityid, setCityid] = useState(null);
 
+  const [stateName, setStateName] = useState(null);
+  const [cityName, setCityName] = useState(null);
+
   const [stateIndex, setStateIndex] = useState(null);
   const [cityIndex, setCityIndex] = useState(null);
 
@@ -48,8 +51,9 @@ const AllServiceProviders = () => {
   }, []);
 
   return (
-    <div className="flex flex-col w-full h-fit mt-10">
-      <div className="flex justify-evenly mt-10">
+    <div className="flex flex-col max-w-6xl w-full h-fit bg-white mt-20 rounded-sm p-10 align-center">
+      <h1 className="font-bold text-4xl py-3">Explore Top Choices:</h1>
+      <div className="flex w-full gap-8">
         {/* <h6>Country</h6>
       <select
         onChange={(e) => {
@@ -60,17 +64,20 @@ const AllServiceProviders = () => {
           });
         }}
         value={countryid}
-      >
+      > 
+       <option selected>Choose a country</option>
         {countriesList.map((item, index) => (
           <option key={index} value={index}>
             {item.name}
           </option>
         ))}
       </select> */}
-        <h6>State</h6>
         <select
+          className="w-40 outline-none focus:outline-none font-semibold scrollable-content"
+          // className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           onChange={(e) => {
-            const state = stateList[e.target.value]; //here you will get full state object.
+            const state = stateList[e.target.value];
+            //here you will get full state object.
             setStateid(state.id);
             setStateIndex(e.target.value);
             GetCity(countryid, state.id).then((result) => {
@@ -79,16 +86,26 @@ const AllServiceProviders = () => {
           }}
           value={stateIndex}
         >
+          <option
+            selected
+            className=" text-sm bg-gray-700 dark:text-gray-200 block px-4 py-2 hover:bg-gray-600 hover:text-white "
+          >
+            Choose a State
+          </option>
           {stateList.map((item, index) => {
             return (
-              <option key={index} value={index}>
+              <option
+                key={index}
+                value={index}
+                className=" text-sm bg-gray-700 dark:text-gray-200 block px-4 py-2 hover:bg-gray-600 hover:text-white "
+              >
                 {item.name}
               </option>
             );
           })}
         </select>
-        <h6>City</h6>
         <select
+          className="w-40 outline-none focus:outline-none font-semibold"
           onChange={(e) => {
             const city = cityList[e.target.value]; //here you will get full city object.
             setCityIndex(e.target.value);
@@ -96,13 +113,24 @@ const AllServiceProviders = () => {
           }}
           value={cityIndex}
         >
+          <option
+            selected
+            className=" text-sm bg-gray-700 dark:text-gray-200 block px-4 py-2 hover:bg-gray-600 hover:text-white "
+          >
+            Choose a city
+          </option>
           {cityList.map((item, index) => (
-            <option key={index} value={index}>
+            <option
+              className=" text-sm bg-gray-700 dark:text-gray-200 block px-4 py-2 hover:bg-gray-600 hover:text-white "
+              key={index}
+              value={index}
+            >
               {item.name}
             </option>
           ))}
         </select>
         <button
+          className="my-2 align-middle text-white w-auto bg-gradient-to-r py-3 from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 text-center"
           onClick={() => {
             setStateIndex(null);
             setStateid(null);
