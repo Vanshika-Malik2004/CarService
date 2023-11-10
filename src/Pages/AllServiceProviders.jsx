@@ -48,32 +48,8 @@ const AllServiceProviders = () => {
   }, []);
 
   return (
-    <div className="flex flex-col w-full h-fit ">
-      <div
-        className="relative bg-cover h-screen w-full"
-        style={{
-          backgroundImage: `url(${BackgroundImage})`,
-        }}
-      >
-        <div className="flex justify-center items-center flex-col opacity-80 bg-black absolute z-10  w-full top-0 left-0  h-screen">
-          <h1 className="text-white text-5xl font-bold min-w-max">
-            FULL SERVICE AUTO CARE!
-          </h1>
-          <p className="text-white max-w-3xl tracking-wide text-center font-light  leading-5 my-6 text-lg">
-            we've curated a diverse and extensive network of reputable car
-            servicing providers, all in one convenient place.Explore our
-            extensive network of car servicing providers and take the hassle out
-            of finding the right match for your automotive needs. Your car, your
-            choice, your convenience
-          </p>
-          <div className="flex justify-center items-center flex-col">
-            <button className=" text-white bg-transparent  text-center border transition-all duration-500 hover:scale-105 border-white px-3 py-2.5 hover:opacity-100 hover:bg-red-800">
-              Browse through Services
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className="flex justify-evenly">
+    <div className="flex flex-col w-full h-fit mt-10">
+      <div className="flex justify-evenly mt-10">
         {/* <h6>Country</h6>
       <select
         onChange={(e) => {
@@ -135,28 +111,28 @@ const AllServiceProviders = () => {
           }}
         >
           Reset Filter
-
         </button>
       </div>
       <div className="grid-container">
         {providerList
-          ? providerList
-  
-              .map((f) => {
-                if(stateIndex && cityIndex && ((f.state != stateList[stateIndex].name) || (f.city != cityList[cityIndex].name)))
-                {
-                  return null;
-                }
-                return (
-                  <ProviderCard
-                    key={f.id}
-                    id={f.id}
-                    name={f.name}
-        
-                    address={f.city}
-                  />
-                );
-              })
+          ? providerList.map((f) => {
+              if (
+                stateIndex &&
+                cityIndex &&
+                (f.state != stateList[stateIndex].name ||
+                  f.city != cityList[cityIndex].name)
+              ) {
+                return null;
+              }
+              return (
+                <ProviderCard
+                  key={f.id}
+                  id={f.id}
+                  name={f.name}
+                  address={f.city}
+                />
+              );
+            })
           : null}
       </div>
     </div>

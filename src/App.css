@@ -3,7 +3,7 @@ body {
 }
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 210px));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 400px));
   width: 100%;
   align-items: center;
   justify-content: center;
@@ -40,21 +40,7 @@ body {
 .css-1e6y48t-MuiButtonBase-root-MuiButton-root {
   display: none !important;
 }
-.movie_container {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  transition: all 0.15s ease-in;
-}
-
-.movie_container:hover {
-  transform: scale(1.01);
-}
-.movie_poster img {
-  border-radius: 10px;
-  width: 100%;
-  object-fit: cover;
-  filter: brightness(0.9);
+.consumerNavbar {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
