@@ -26,7 +26,7 @@ const DashBoardConsumer = () => {
 
   const renderData = () => {
     return (
-      <div className="flex justify-center items-center w-full px-20 h-full bg-slate-100 pb-10">
+      <div className="flex justify-center items-center w-full px-20 pt-16 h-full bg-slate-100 pb-10">
         {<NavbarForConsumerDashboard />}
         <Outlet />
       </div>
