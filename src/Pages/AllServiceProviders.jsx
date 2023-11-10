@@ -51,7 +51,7 @@ const AllServiceProviders = () => {
   }, []);
 
   return (
-    <div className="flex flex-col max-w-6xl w-full h-fit bg-white mt-20 rounded-sm p-10 align-center">
+    <div className="flex flex-col max-w-6xl w-full h-fit bg-white mt-6 rounded-sm p-10 align-center">
       <h1 className="font-bold text-4xl py-3">Explore Top Choices:</h1>
       <div className="flex w-full gap-8">
         {/* <h6>Country</h6>
