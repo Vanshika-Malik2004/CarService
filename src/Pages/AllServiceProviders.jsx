@@ -105,7 +105,7 @@ const AllServiceProviders = () => {
           })}
         </select>
         <select
-          className="w-40 outline-none focus:outline-none font-semibold"
+          className="w-40 font-semibold appearance-none outline-none bg-transparent px-4 py-2 pr-8 leading-tight focus:outline-none"
           onChange={(e) => {
             const city = cityList[e.target.value]; //here you will get full city object.
             setCityIndex(e.target.value);
@@ -115,7 +115,7 @@ const AllServiceProviders = () => {
         >
           <option
             selected
-            className=" text-sm bg-gray-700 dark:text-gray-200 block px-4 py-2 hover:bg-gray-600 hover:text-white "
+            className=" text-sm bg-gray-700  dark:text-gray-200   hover:bg-gray-600 hover:text-white "
           >
             Choose a city
           </option>
@@ -141,7 +141,7 @@ const AllServiceProviders = () => {
           Reset Filter
         </button>
       </div>
-      <div className="grid-container">
+      <div className="gap-4 w-full grid-container h-fit py-8">
         {providerList
           ? providerList.map((f) => {
               if (
