@@ -30,6 +30,12 @@ const NavbarForConsumerDashboard = () => {
             Book Appointment
           </Link>
           <Link
+            to="allServices"
+            className="font-semibold py-3 hover:border-b-2 hover:border-red-600"
+          >
+            Browse
+          </Link>
+          <Link
             to="myAppointments"
             className="font-semibold py-3 hover:border-b-2 hover:border-red-600"
           >
