@@ -5,24 +5,8 @@ const AllServices = () => {
   const location = useLocation();
   const [servicesList, setServicesList] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [providerDetails, setProviderDetails] = useState(null);
   const { id } = useParams();
   useEffect(() => {
-    const fetchDetails = async (id) => {
-      const { data, error } = await supabase
-        .from("ServiceProvider")
-        .select()
-        .eq("id", id);
-      if (error) {
-        setProviderList(null);
-        console.log("error");
-      }
-      if (data) {
-        setProviderDetails(data[0]);
-        console.log(data[0]);
-        // console.log("data received");
-      }
-    };
     const fetchAllServices = async (id) => {
       const { data, error } = await supabase
         .from("ServicesTable")

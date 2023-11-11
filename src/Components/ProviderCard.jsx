@@ -9,7 +9,7 @@ import carService7 from "../assets/carService7.jpg";
 import carService9 from "../assets/carService9.jpg";
 import carService10 from "../assets/carService10.jpg";
 import Rating from "@mui/material/Rating";
-
+import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 const imageList = [
   carService1,
@@ -46,9 +46,9 @@ const ProviderCard = ({ id, name, address, rating }) => {
           <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
             {address}
           </p>
-          <button className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-            <Link to={`/services/${id}`}>Explore</Link>
-          </button>
+          <Button variant="contained" color="error">
+            <Link to={`/dashboard/user/services/${id}`}>Explore</Link>
+          </Button>
         </div>
       </div>
     </div>

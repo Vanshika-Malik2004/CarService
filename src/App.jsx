@@ -42,6 +42,7 @@ const router = createBrowserRouter(
       <Route path="/manage/business" element={<ManageBusiness />} />
       <Route path="/dashboard">
         <Route path="user" element={<DashBoardConsumer />}>
+          <Route path="services/:id" element={<BookAppointment />} />
           <Route path="allServices" element={<AllServiceProviders />} />
           <Route path="myAppointments" element={<CustomerAppointments />} />
         </Route>
@@ -54,7 +55,6 @@ const router = createBrowserRouter(
           <Route path="myAppointments" element={<Appointments />} />
         </Route>
       </Route>
-      <Route path="/services/:id" element={<BookAppointment />} />
       <Route path="timeSlot" element={<BookTimingComponent />} />
       <Route path="/calender" element={<Calender />} />
     </Route>

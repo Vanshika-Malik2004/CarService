@@ -24,12 +24,6 @@ const NavbarForConsumerDashboard = () => {
         <h3 className="text-lg font-bold py-3">Logo</h3>
         <div className="flex w-auto space-x-4 text-gray-900 gap-4">
           <Link
-            to="bookAppointment"
-            className="font-semibold py-3 hover:border-b-2 hover:border-red-600"
-          >
-            Book Appointment
-          </Link>
-          <Link
             to="allServices"
             className="font-semibold py-3 hover:border-b-2 hover:border-red-600"
           >
