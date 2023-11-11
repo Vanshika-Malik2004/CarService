@@ -1,7 +1,12 @@
-import React from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
+import { toast } from "react-toastify";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthProvider";
 const NavbarForConsumerDashboard = () => {
+  const { signOutUser, currentUser, updateCurrentUser } =
+    useContext(AuthContext);
+  const navigate = useNavigate();
   const loggOut = async () => {
     await signOutUser();
     toast.success("Logged out successfully !", {
@@ -36,7 +41,9 @@ const NavbarForConsumerDashboard = () => {
             My Appointments
           </Link>
           <button
-            onClick={loggOut}
+            onClick={() => {
+              loggOut();
+            }}
             className=" my-2 align-middle text-white w-auto bg-gradient-to-r py-3 from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 text-center"
           >
             <p>Logout</p>

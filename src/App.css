@@ -7,6 +7,13 @@ body {
   align-items: center;
   justify-content: center;
 }
+.grid-container-home {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 250px));
+  align-items: center;
+  justify-content: center;
+}
+
 .grid-container-weekDays {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(48px, 55px));

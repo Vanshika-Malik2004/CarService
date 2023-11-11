@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
 import { Button } from "@mui/material";
 import { toast } from "react-toastify";
-import Rating from '@mui/material/Rating';
+import Rating from "@mui/material/Rating";
 
 const columns = [
   { id: "id", label: "ID", minWidth: 30 },
@@ -126,7 +126,7 @@ export default function CustomerAppointments() {
     // console.log('rows',data)
     const rowsData = await supabase
       .from("AppointmentsTable")
-      .select('*,ServiceProvider(*)')
+      .select("*,ServiceProvider(*)")
       .eq("consumerEmail", email)
       .neq("Status", "Pending");
     if (rowsData.error) {
@@ -195,29 +195,29 @@ export default function CustomerAppointments() {
     setPage(0);
   };
 
-  const updateRating = async (data,value) => {
+  const updateRating = async (data, value) => {
     const { error } = await supabase
       .from("AppointmentsTable")
       .update({
-         Rating: value ,
+        Rating: value,
       })
-      .eq("id", data['id'])
+      .eq("id", data["id"])
       .select();
-      if(error)console.log(error);
-      await supabase
+    if (error) console.log(error);
+    await supabase
       .from("ServiceProvider")
-      .update({ RatingS: data.ServiceProvider.RatingS + value,
-               NoOfFeedback: data.ServiceProvider.NoOfFeedback + 1,
+      .update({
+        RatingS: data.ServiceProvider.RatingS + value,
+        NoOfFeedback: data.ServiceProvider.NoOfFeedback + 1,
       })
-      .eq("id", data['ProviderId'])
+      .eq("id", data["ProviderId"])
       .select();
-      getAppointments(currentUser.email)
-
-    }
+    getAppointments(currentUser.email);
+  };
 
   return (
     currentUser && (
-      <div className="max-w-6xl flex flex-col gap-10 w-full h-fit bg-slate-900 text-white my-6 rounded-lg p-10">
+      <div className="max-w-5xl flex flex-col gap-10 w-full h-fit bg-gray-800 text-white my-6 rounded-lg p-10">
         <h1 className="p-4 text-3xl font-bold">Booked Components</h1>
         <Paper
           sx={{
@@ -347,15 +347,30 @@ export default function CustomerAppointments() {
                         >
                           {columns.slice(0, -1).map((column) => {
                             const value = row[column.id];
-                            if(column.id=='Status' && value=='Completed')
-                            {
+                            if (column.id == "Status" && value == "Completed") {
                               return (
                                 <TableCell key={column.id}>
-                                  <span className="flex justify-center">{value}</span>
-                                  {!row['Rating'] && <Rating name="no-value" value={null} onChange={(ev,nvalue)=>{updateRating(row,nvalue)}}/>}
-                                  {row['Rating'] && <Rating name="read-only" value={row['Rating'] } readOnly />}
+                                  <span className="flex justify-center">
+                                    {value}
+                                  </span>
+                                  {!row["Rating"] && (
+                                    <Rating
+                                      name="no-value"
+                                      value={null}
+                                      onChange={(ev, nvalue) => {
+                                        updateRating(row, nvalue);
+                                      }}
+                                    />
+                                  )}
+                                  {row["Rating"] && (
+                                    <Rating
+                                      name="read-only"
+                                      value={row["Rating"]}
+                                      readOnly
+                                    />
+                                  )}
                                 </TableCell>
-                              )
+                              );
                             }
                             return (
                               <TableCell key={column.id} align={column.align}>

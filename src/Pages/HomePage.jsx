@@ -45,7 +45,7 @@ console.log(supabase);
 const HomePage = () => {
   const renderFeaturesCard = (displayArray) => {
     return (
-      <div className="grid-container">
+      <div className="grid-container-home">
         {displayArray.map((f) => {
           return (
             <div className=" cards flex flex-col gap-2 p-3 h-fit items-center justify-center  rounded-md text-center ">
