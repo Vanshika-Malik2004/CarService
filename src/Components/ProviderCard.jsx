@@ -22,7 +22,10 @@ const imageList = [
 const ProviderCard = ({ id, name, address }) => {
   console.log(id);
   return (
-    <div className="max-w-lg   rounded-lg shadow bg-white m-4" key={id}>
+    <div
+      className="max-w-lg   rounded-lg shadow bg-white m-4 hover:scale-105"
+      key={id}
+    >
       <div className="">
         <img src={imageList[id % 9]} class="rounded-t-lg w-full h-1/2" />
         <div className="p-3">
