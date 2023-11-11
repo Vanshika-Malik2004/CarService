@@ -203,7 +203,7 @@ export default function BookAppointment() {
       <div className="w-full h-1/3">
         <img src={image1} class="rounded-t-lg w-full max-h-96 object-cover" />
       </div>
-      <div className="p-6 flex flex-col justify-start gap-10">
+      <div className="px-6 pb-20 flex flex-col justify-start gap-10 mt-10">
         <div className="flex justify-between">
           <div className="flex flex-col gap-2">
             <h1 className="font-bold text-5xl">
@@ -239,6 +239,7 @@ export default function BookAppointment() {
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
+            className="backdrop-filter backdrop-blur-lg bg-opacity-30 bg-white z-10"
           >
             <SelectDateTime
               book={(date, time) => {
