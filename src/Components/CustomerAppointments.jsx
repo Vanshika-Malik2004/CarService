@@ -249,7 +249,7 @@ export default function CustomerAppointments() {
                                         Completed
                                       </Button> */}
                                     <Button
-                                      variant="outlined"
+                                      variant="contained"
                                       color="error"
                                       onClick={() =>
                                         takeAction(row["id"], "Canceled")
