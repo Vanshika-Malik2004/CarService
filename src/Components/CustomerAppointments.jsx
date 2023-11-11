@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
 import { Button } from "@mui/material";
 import { toast } from "react-toastify";
+import Rating from '@mui/material/Rating';
 
 const columns = [
   { id: "id", label: "ID", minWidth: 30 },
@@ -125,7 +126,7 @@ export default function CustomerAppointments() {
     // console.log('rows',data)
     const rowsData = await supabase
       .from("AppointmentsTable")
-      .select()
+      .select('*,ServiceProvider(*)')
       .eq("consumerEmail", email)
       .neq("Status", "Pending");
     if (rowsData.error) {
@@ -193,6 +194,26 @@ export default function CustomerAppointments() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const updateRating = async (data,value) => {
+    const { error } = await supabase
+      .from("AppointmentsTable")
+      .update({
+         Rating: value ,
+      })
+      .eq("id", data['id'])
+      .select();
+      if(error)console.log(error);
+      await supabase
+      .from("ServiceProvider")
+      .update({ RatingS: data.ServiceProvider.RatingS + value,
+               NoOfFeedback: data.ServiceProvider.NoOfFeedback + 1,
+      })
+      .eq("id", data['ProviderId'])
+      .select();
+      getAppointments(currentUser.email)
+
+    }
 
   return (
     currentUser && (
@@ -326,6 +347,16 @@ export default function CustomerAppointments() {
                         >
                           {columns.slice(0, -1).map((column) => {
                             const value = row[column.id];
+                            if(column.id=='Status' && value=='Completed')
+                            {
+                              return (
+                                <TableCell key={column.id}>
+                                  <span className="flex justify-center">{value}</span>
+                                  {!row['Rating'] && <Rating name="no-value" value={null} onChange={(ev,nvalue)=>{updateRating(row,nvalue)}}/>}
+                                  {row['Rating'] && <Rating name="read-only" value={row['Rating'] } readOnly />}
+                                </TableCell>
+                              )
+                            }
                             return (
                               <TableCell key={column.id} align={column.align}>
                                 {column.format && typeof value === "number"
