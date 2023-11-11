@@ -6,6 +6,7 @@ import { supabase } from "../SupabaseConfig";
 import { toast } from "react-toastify";
 import { GetState } from "react-country-state-city";
 import { GetCity } from "react-country-state-city";
+import ProfileImage from "./ProfileImage";
 const weekDays = [
   { value: "monday", tag: "M", isSelected: false },
   { value: "tuesday", tag: "T", isSelected: false },
@@ -13,11 +14,11 @@ const weekDays = [
   { value: "thursday", tag: "Th", isSelected: false },
   { value: "friday", tag: "F", isSelected: false },
   { value: "saturday", tag: "Sat", isSelected: false },
-  { value: "sunday", tag: "S", isSelected: false },
+  { value: "Sunday", tag: "S", isSelected: false },
 ];
 const lableClass = "font-sans	font-medium font text-lg m-4";
 const inputClass = "border border-black-200 py-0.5 m-2 w-60 max-w-fit ";
-const ManageBusiness = () => {
+const UpdateProfile = () => {
   const navigate = useNavigate();
   const { signOutUser, currentUser, updateCurrentUser } =
     useContext(AuthContext);
@@ -36,7 +37,7 @@ const ManageBusiness = () => {
   const [countryid, setCountryid] = useState(101); // setting defalut country to india
   const [stateid, setStateid] = useState(null);
   const [cityid, setCityid] = useState(null);
-  
+
   const [stateIndex, setStateIndex] = useState(null);
   const [cityIndex, setCityIndex] = useState(null);
 
@@ -44,81 +45,129 @@ const ManageBusiness = () => {
   const [stateList, setStateList] = useState([]);
   const [cityList, setCityList] = useState([]);
 
-  const loggOut = async () => {
-    await signOutUser();
-    toast.success("Logged out successfully !", {
-      toastId: "Logout",
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-    navigate("/login/user");
-  };
+  const [pid, setPid] = useState(null);
+
+  React.useEffect(() => {
+      const tempUser = JSON.parse(sessionStorage.getItem("currentUser"));
+      const getData = async () => {
+        console.log("email", currentUser.email);
+        const { data, error } = await supabase
+          .from("ServiceProvider")
+          .select("*")
+          .eq("email", currentUser.email);
+        setPid(data[0].id);
+        // console.log(data)
+        if (error) {
+            
+          console.log("error: ", error);
+        } else {
+          console.log(data);
+        }
+      };
+      if (!tempUser) {
+          toast.error("First Login !", {
+              toastId: "FirstLogin",
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      navigate("/login/user");
+    } else {
+      updateCurrentUser(tempUser);
+
+      getData();
+
+      // console.log(tempUser.email);
+      // console.log(currentUser);
+    }
+  }, []);
+
+  //   const loggOut = async () => {
+  //     await signOutUser();
+  //     toast.success("Logged out successfully !", {
+  //       toastId: "Logout",
+  //       position: "top-right",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "colored",
+  //     });
+  //     navigate("/login/user");
+  //   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const sendData = {
-      name: businessName,
-      email: email,
-      address: address,
-      pincode: pin,
-      state: state,
-      city: city,
-      OwnerName: ownerName,
-      ContactNumber: contactNumber,
+      //   name: businessName,
+      //   email: email,
+      //   address: address,
+      //   pincode: pin,
+      //   state: state,
+      //   city: city,
+      //   OwnerName: ownerName,
+      //   ContactNumber: contactNumber,
     };
+    if (businessName) sendData["businessName"] = businessName;
+    if (address) sendData["address"] = address;
+    if (pin) sendData["pincode"] = pin;
+    if (ownerName) sendData["OwnerName"] = ownerName;
+    if (contactNumber) sendData["ContactNumber"] = contactNumber;
     const { data, error } = await supabase
       .from("ServiceProvider")
-      .insert([sendData])
+      .update([sendData])
+      .eq("email", currentUser.email)
       .select();
     if (data) {
       console.log("data", data);
-      const timeSlotData = {
-        StartTime: openTime,
-        EndTime: endTime,
-        WorkingDays: workingDays,
-        ProviderId: data[0].id,
-      };
-      const t = await supabase
-        .from("TimeSlotTable")
-        .insert([timeSlotData])
-        .select();
-      if (t.data) {
-        toast.success("Successfully registered busiess !", {
-          toastId: "SuccessfullyRegisteredBusiness",
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-        console.log(t.data);
-      } else {
-        toast.error("Error !\n" + t.error, {
-          toastId: "ManageBusinessRegisterError",
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-        console.log(t.error);
-      }
+      //   const timeSlotData = {
+      //     StartTime: openTime,
+      //     EndTime: endTime,
+      //     WorkingDays: workingDays,
+      //     ProviderId: data[0].id,
+      //   };
+      //   const t = await supabase
+      //     .from("TimeSlotTable")
+      //     .insert([timeSlotData])
+      //     .select();
+      //   if (t.data) {
+      //     toast.success("Successfully Updated !", {
+      //       toastId: "SuccessfullyUpdatedProfile",
+      //       position: "top-right",
+      //       autoClose: 5000,
+      //       hideProgressBar: false,
+      //       closeOnClick: true,
+      //       pauseOnHover: true,
+      //       draggable: true,
+      //       progress: undefined,
+      //       theme: "colored",
+      //     });
+      // console.log(t.data);
+      //   } else {
+      //     toast.error("Error !\n" + t.error, {
+      //       toastId: "UpdateProfileError",
+      //       position: "top-right",
+      //       autoClose: 5000,
+      //       hideProgressBar: false,
+      //       closeOnClick: true,
+      //       pauseOnHover: true,
+      //       draggable: true,
+      //       progress: undefined,
+      //       theme: "colored",
+      //     });
+      //     console.log(t.error);
+      //   }
       navigate("/dashboard/provider/");
     } else {
       toast.error("Error !\n" + error, {
-        toastId: "ManageBusinessSecondError",
+        toastId: "UpdateProfileSecondError",
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -151,9 +200,7 @@ const ManageBusiness = () => {
     return (
       <>
         <div className="m-4">
-          <h1 className="custom_font text-rose-700">
-            let's register your business
-          </h1>
+          <h1 className="custom_font text-rose-700">Update Your Profile</h1>
         </div>
         <form
           className="flex flex-row gap-6"
@@ -162,6 +209,7 @@ const ManageBusiness = () => {
           }}
         >
           <section className="flex flex-col w-full gap-4 items-start justify-start">
+            {pid && <ProfileImage providerId={20} />}
             {/*BUSINESS NAME */}
             <label className={lableClass}>
               Business Name
@@ -244,7 +292,7 @@ const ManageBusiness = () => {
                 onChange={(e) => {
                   const state = stateList[e.target.value]; //here you will get full state object.
                   setStateid(state.id);
-                  setState(state.name)
+                  setState(state.name);
                   setStateIndex(e.target.value);
                   GetCity(countryid, state.id).then((result) => {
                     setCityList(result);
@@ -269,8 +317,7 @@ const ManageBusiness = () => {
                   const city = cityList[e.target.value]; //here you will get full city object.
                   setCity(city.name);
                   setCityid(city.id);
-                  setCityIndex(e.target.value)
-
+                  setCityIndex(e.target.value);
                 }}
                 value={cityIndex}
               >
@@ -313,7 +360,7 @@ const ManageBusiness = () => {
               Submit
             </button>
           </section>
-          <div onClick={loggOut}>logg Out</div>
+          {/* <div onClick={loggOut}>logg Out</div> */}
         </form>
       </>
     );
@@ -347,4 +394,4 @@ const ManageBusiness = () => {
   );
 };
 
-export default ManageBusiness;
+export default UpdateProfile;

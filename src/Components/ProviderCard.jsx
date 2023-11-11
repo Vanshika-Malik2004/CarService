@@ -1,5 +1,5 @@
 import React from "react";
-import carService1 from "../assets/carService1.avif";
+import carService1 from "../assets/carService1.jpg";
 import carService2 from "../assets/carService2.jpg";
 import carService3 from "../assets/carService3.jpg";
 import carService4 from "../assets/carService4.jpg";
@@ -7,10 +7,13 @@ import carService5 from "../assets/carSevice5.jpg";
 import carService6 from "../assets/carService6.jpg";
 import carService7 from "../assets/carService7.jpg";
 import carService9 from "../assets/carService9.jpg";
-import carService10 from "../assets/carService10.jpg";
+import carService10 from "../assets/carService10.avif";
 import Rating from "@mui/material/Rating";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { supabase } from "../SupabaseConfig";
+import { useState } from "react";
 const imageList = [
   carService1,
   carService2,
@@ -22,17 +25,39 @@ const imageList = [
   carService9,
   carService10,
 ];
+
 const ProviderCard = ({ id, name, address, rating }) => {
-  console.log(id);
+  // console.log(id);
+  const [imgL,setImgL] = useState(null);
+  useEffect(() => {
+    const getImg = async () => {
+      const prev = await supabase
+        .from("ServiceProvider")
+        .select()
+        .eq("id", id);
+      if (prev.data[0].ProfilePic) {
+        const { data } = await supabase.storage
+          .from("ProviderProfilePicture")
+          .getPublicUrl(
+            "profile/" + id + "/" + prev.data[0].ProfilePic
+          );
+        console.log(data);
+
+        setImgL(data.publicUrl);
+      }
+    };
+    getImg();
+  });
   return (
     <div
       className="max-w-lg   rounded-lg shadow bg-white m-4 hover:scale-105"
       key={id}
     >
       <div className="">
-        <img src={imageList[id % 9]} class="rounded-t-lg w-full h-1/2" />
+        {!imgL && <img src={imageList[id % 8]} className="rounded-t-lg w-full h-1/2" />}
+        {imgL && <img src={imgL} className="rounded-t-lg w-full h-1/2" />}
         <div className="p-3">
-          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
             {name}
           </h5>
           <div>

@@ -17,7 +17,7 @@ import { supabase } from "./SupabaseConfig";
 import DashBoardConsumer from "./Pages/DashBoardConsumer";
 import ManageBusiness from "./Pages/ManageBusiness";
 import { AuthProvider } from "./context/AuthProvider";
-import Calender from "./Components/Calender";
+import Calendar from "./Components/Calendar";
 import SomeComponent from "./Components/SomeComponent";
 import ProviderDashboard from "./ProviderDashboard/ProviderDashboard";
 import MyServices from "./ProviderDashboard/MyServices";
@@ -28,6 +28,8 @@ import BookAppointment from "./Components/BookAppointment";
 import CustomerAppointments from "./Components/CustomerAppointments";
 import AllServiceProviders from "./Pages/AllServiceProviders";
 import AllServices from "./Pages/AllServices";
+import ProfileImage from "./ProviderDashboard/ProfileImage";
+import UpdateProfile from "./ProviderDashboard/UpdateProfile";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
@@ -56,7 +58,8 @@ const router = createBrowserRouter(
         </Route>
       </Route>
       <Route path="timeSlot" element={<BookTimingComponent />} />
-      <Route path="/calender" element={<Calender />} />
+      <Route path="calendar" element={<Calendar workingDaysOfWeek={[1,2,3,4]} />} />
+      <Route path="test" element={<UpdateProfile/>}/>
     </Route>
   )
 );
