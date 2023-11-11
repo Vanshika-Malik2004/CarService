@@ -8,6 +8,8 @@ import carService6 from "../assets/carService6.jpg";
 import carService7 from "../assets/carService7.jpg";
 import carService9 from "../assets/carService9.jpg";
 import carService10 from "../assets/carService10.jpg";
+import Rating from "@mui/material/Rating";
+
 import { Link } from "react-router-dom";
 const imageList = [
   carService1,
@@ -20,7 +22,7 @@ const imageList = [
   carService9,
   carService10,
 ];
-const ProviderCard = ({ id, name, address }) => {
+const ProviderCard = ({ id, name, address, rating }) => {
   console.log(id);
   return (
     <div
@@ -33,6 +35,14 @@ const ProviderCard = ({ id, name, address }) => {
           <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
             {name}
           </h5>
+          <div>
+            <Rating
+              name="half-rating-read"
+              defaultValue={rating}
+              precision={0.2}
+              readOnly
+            />
+          </div>
           <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
             {address}
           </p>

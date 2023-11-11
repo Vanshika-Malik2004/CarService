@@ -158,6 +158,7 @@ const AllServiceProviders = () => {
                   id={f.id}
                   name={f.name}
                   address={f.city}
+                  rating={(f.NoOfFeedback == 0)?null : f.RatingS/f.NoOfFeedback}
                 />
               );
             })
