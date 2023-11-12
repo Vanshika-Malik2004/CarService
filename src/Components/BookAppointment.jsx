@@ -13,7 +13,7 @@ import { AuthContext } from "../context/AuthProvider";
 import { Button, Modal } from "@mui/material";
 import SelectDateTime from "./SelectDateTime";
 import { toast } from "react-toastify";
-import image1 from "../assets/carService1.avif";
+import image1 from "../assets/carService1.jpg";
 import { useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa"; // Font Awesome location icon
 import { FaPhone, FaEnvelope } from "react-icons/fa";
@@ -78,7 +78,7 @@ export default function BookAppointment() {
     } else {
       updateCurrentUser(tempUser);
       // console.log(tempUser.email);
-      console.log("currentUser", tempUser);
+      // console.log("currentUser", tempUser);
     }
     fetchDetails(id);
     getServices(id);
@@ -101,11 +101,11 @@ export default function BookAppointment() {
         progress: undefined,
         theme: "colored",
       });
-      console.log("data", data);
+      // console.log("data", data);
     }
     if (data) {
       setProviderDetails(data[0]);
-      console.log(data[0]);
+      // console.log(data[0]);
       // console.log("data received");
     }
   };
@@ -130,13 +130,13 @@ export default function BookAppointment() {
       });
       console.log("data", data);
     }
-    console.log(data);
+    // console.log(data);
     setRows(data);
   }
 
   const book = async (row, date, time) => {
-    console.log(row);
-    console.log(currentUser);
+    // console.log(row);
+    // console.log(currentUser);
     const { error } = await supabase
       .from("AppointmentsTable")
       .insert([
@@ -181,7 +181,8 @@ export default function BookAppointment() {
     handleClose();
   };
   const takeAction = async (row) => {
-    console.log(row);
+    // console.log(row);
+
     setRow(row);
     handleOpen();
   };
@@ -201,7 +202,10 @@ export default function BookAppointment() {
   return (
     <div className="flex flex-col bg-white max-w-4xl  h-fit m-10 rounded-lg">
       <div className="w-full h-1/3">
-        <img src={image1} class="rounded-t-lg w-full max-h-96 object-cover" />
+        <img
+          src={image1}
+          className="rounded-t-lg w-full max-h-96 object-cover"
+        />
       </div>
       <div className="px-6 pb-20 flex flex-col justify-start gap-10 mt-10">
         <div className="flex justify-between">
@@ -242,6 +246,7 @@ export default function BookAppointment() {
             className="backdrop-filter backdrop-blur-lg bg-opacity-30 bg-white z-10"
           >
             <SelectDateTime
+              providerId={id}
               book={(date, time) => {
                 book(row, date, time);
               }}
@@ -274,7 +279,9 @@ export default function BookAppointment() {
                         page * rowsPerPage + rowsPerPage
                       )
                       .map((row, index) => {
-                        console.log(row);
+                        {
+                          /* console.log(row); */
+                        }
                         return (
                           <TableRow
                             hover

@@ -5,8 +5,8 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { StaticDateTimePicker } from "@mui/x-date-pickers/StaticDateTimePicker";
 import dayjs from "dayjs";
-const Calender = () => {
-  const workingDaysOfWeek = [1, 2, 3, 4, 5];
+const Calendar = ({workingDaysOfWeek}) => {
+  // const workingDaysOfWeek = [1, 2, 3, 4, 5];
   const [dateValue, setDateValue] = useState(null);
   const [timeValue, setTimeValue] = useState(null);
   const [conbinedValue, setCombinedValue] = useState();
@@ -60,4 +60,4 @@ const Calender = () => {
   );
 };
 
-export default Calender;
+export default Calendar;
