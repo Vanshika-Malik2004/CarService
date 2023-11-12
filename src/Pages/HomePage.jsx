@@ -63,26 +63,32 @@ const HomePage = () => {
   };
 
   return (
-    <div className="flex flex-col w-full h-fit ">
+    <div className="flex flex-col w-full h-fit">
       <div
         className="relative bg-cover h-screen w-full"
         style={{
           backgroundImage: `url(${BackgroundImage})`,
         }}
       >
-        <div className="flex justify-center items-center flex-col opacity-80 bg-black absolute z-10  w-full top-0 left-0  h-screen">
-          <h1 className="text-white text-5xl font-bold min-w-max">
-            Revive your Ride: Expert <br /> Car Servicing at Your Doorstep!
+        <div className="flex justify-center items-start flex-col opacity-80 bg-black absolute z-10  w-full top-0 left-0  h-screen px-12">
+          <h1 className="text-white text-5xl font-bold min-w-max leading-tight">
+            Revive your Ride: <br /> Expert Car Servicing <br />
+            at Your Doorstep!
           </h1>
-          <p className="text-white max-w-3xl tracking-wide text-center font-light  leading-5 my-6 text-lg">
+          <p className="text-white max-w-xl tracking-wide text-start font-light  leading-tight my-4 text-m">
             Welcome to our car servicing website, your one-stop destination for
             all your automotive maintenance needs. Whether it's routine
             maintenance, repairs, or specialized services, we provide reliable
             solutions tailored to your vehicle's unique requirements.
           </p>
-          <button className=" text-white bg-transparent  text-center border transition-all duration-500 hover:scale-105 border-white px-3 py-2.5 hover:opacity-100 hover:bg-red-800">
-            <Link to="/login/user"> Let's Get Started</Link>
-          </button>
+          <div className="flex gap-6">
+            <button className=" text-white bg-transparent  text-center border transition-all duration-500 hover:scale-105 border-white px-3 py-2.5 hover:opacity-100 hover:bg-red-800">
+              <Link to="/login/user"> Let's Get Started</Link>
+            </button>
+            <button className="rounded-3xl px-4 py-2 bg-white text-lg font-semibold">
+              Register
+            </button>
+          </div>
         </div>
       </div>
 
