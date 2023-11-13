@@ -3,6 +3,7 @@ import "react-country-state-city/dist/react-country-state-city.css";
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider,
 } from "react-router-dom";
@@ -44,17 +45,19 @@ const router = createBrowserRouter(
       <Route path="/manage/business" element={<ManageBusiness />} />
       <Route path="/dashboard">
         <Route path="user" element={<DashBoardConsumer />}>
+          <Route index element={<Navigate to="allServices" replace/>} />
           <Route path="services/:id" element={<BookAppointment />} />
           <Route path="allServices" element={<AllServiceProviders />} />
           <Route path="myAppointments" element={<CustomerAppointments />} />
         </Route>
 
         <Route path="provider" element={<ProviderDashboard />}>
-          <Route index element={<MyServices />} />
+          <Route index element={<Navigate to="myServices" replace/>} />
           <Route path="manageBusiness" element={<ManageBusiness />} />
           <Route path="myServices" element={<MyServices />} />
           {/* <Route path="addService" element={<AddServcie />} /> */}
           <Route path="myAppointments" element={<Appointments />} />
+          <Route path="update" element={<UpdateProfile />} />
         </Route>
       </Route>
       <Route path="timeSlot" element={<BookTimingComponent />} />

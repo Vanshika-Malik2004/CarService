@@ -43,7 +43,7 @@ const RegisterUser = () => {
       });
       console.log("Error in signup : \n", error);
     }
-    if (data) {
+    if (!error) {
       console.log(data);
       toast.success("Registered Successfully !", {
         toastId: "RegisteredSuccessfully",

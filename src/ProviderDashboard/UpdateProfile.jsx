@@ -48,26 +48,26 @@ const UpdateProfile = () => {
   const [pid, setPid] = useState(null);
 
   useEffect(() => {
-      const tempUser = JSON.parse(sessionStorage.getItem("currentUser"));
-      const getData = async () => {
-        //   console.log("email", currentUser.email);
-        const { data, error } = await supabase
+    const tempUser = JSON.parse(sessionStorage.getItem("currentUser"));
+    const getData = async () => {
+      //   console.log("email", currentUser.email);
+      const { data, error } = await supabase
         .from("ServiceProvider")
         .select("*")
         .eq("email", tempUser.email);
-        setPid(data[0].id);
-        console.log("sdfds")
-        console.log(data)
-        if (error) {
+      setPid(data[0].id);
+      // console.log("sdfds")
 
-          console.log("error: ", error);
-        } else {
-          console.log(data);
-        }
-      };
-      if (!tempUser) {
-          toast.error("First Login !", {
-              toastId: "FirstLogin",
+      console.log(data);
+      if (error) {
+        console.log("error: ", error);
+      } else {
+        console.log(data);
+      }
+    };
+    if (!tempUser) {
+      toast.error("First Login !", {
+        toastId: "FirstLogin",
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -80,12 +80,12 @@ const UpdateProfile = () => {
       navigate("/login/user");
     } else {
       updateCurrentUser(tempUser);
-      
+
       // console.log(tempUser.email);
       // console.log(currentUser);
     }
     getData();
-}, []);
+  }, []);
 
   //   const loggOut = async () => {
   //     await signOutUser();
@@ -115,11 +115,12 @@ const UpdateProfile = () => {
       //   OwnerName: ownerName,
       //   ContactNumber: contactNumber,
     };
-    if (businessName) sendData["businessName"] = businessName;
+    if (businessName) sendData["name"] = businessName;
     if (address) sendData["address"] = address;
     if (pin) sendData["pincode"] = pin;
     if (ownerName) sendData["OwnerName"] = ownerName;
     if (contactNumber) sendData["ContactNumber"] = contactNumber;
+    console.log(sendData);
     const { data, error } = await supabase
       .from("ServiceProvider")
       .update([sendData])
@@ -127,43 +128,52 @@ const UpdateProfile = () => {
       .select();
     if (data) {
       console.log("data", data);
-      //   const timeSlotData = {
-      //     StartTime: openTime,
-      //     EndTime: endTime,
-      //     WorkingDays: workingDays,
-      //     ProviderId: data[0].id,
-      //   };
-      //   const t = await supabase
-      //     .from("TimeSlotTable")
-      //     .insert([timeSlotData])
-      //     .select();
-      //   if (t.data) {
-      //     toast.success("Successfully Updated !", {
-      //       toastId: "SuccessfullyUpdatedProfile",
-      //       position: "top-right",
-      //       autoClose: 5000,
-      //       hideProgressBar: false,
-      //       closeOnClick: true,
-      //       pauseOnHover: true,
-      //       draggable: true,
-      //       progress: undefined,
-      //       theme: "colored",
-      //     });
-      // console.log(t.data);
-      //   } else {
-      //     toast.error("Error !\n" + t.error, {
-      //       toastId: "UpdateProfileError",
-      //       position: "top-right",
-      //       autoClose: 5000,
-      //       hideProgressBar: false,
-      //       closeOnClick: true,
-      //       pauseOnHover: true,
-      //       draggable: true,
-      //       progress: undefined,
-      //       theme: "colored",
-      //     });
-      //     console.log(t.error);
-      //   }
+
+      if (openTime || endTime || workingDays) {
+        const timeSlotData = {
+          // StartTime: openTime,
+          // EndTime: endTime,
+          // WorkingDays: workingDays,
+          // ProviderId: data[0].id,
+        };
+        if (openTime) timeSlotData["StartTime"] = openTime;
+        if (endTime) timeSlotData["EndTime"] = endTime;
+        if (workingDays.length) timeSlotData["WorkingDays"] = workingDays;
+
+        const t = await supabase
+          .from("TimeSlotTable")
+          .update([timeSlotData])
+          .eq("ProviderId", data[0].id)
+          .select();
+        if (!t.error) {
+          console.log(t.data);
+        } else {
+          toast.error("Error !\n" + t.error, {
+            toastId: "UpdateTimeError",
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          console.log(t.error);
+          return;
+        }
+      }
+      toast.success("Successfully Updated !", {
+        toastId: "SuccessfullyUpdatedProfile",
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       navigate("/dashboard/provider/");
     } else {
       toast.error("Error !\n" + error, {
@@ -209,7 +219,7 @@ const UpdateProfile = () => {
           }}
         >
           <section className="flex flex-col w-full gap-4 items-start justify-start">
-            {pid && <ProfileImage providerId={20} />}
+            {pid && <ProfileImage providerId={pid} />}
             {/*BUSINESS NAME */}
             <label className={lableClass}>
               Business Name
@@ -359,6 +369,32 @@ const UpdateProfile = () => {
             <button className="bg-red-600 py-2 px-20 m-6 text-white text-xl w-fit font-semibold hover:-">
               Submit
             </button>
+            <button className="bg-red-600 py-2 px-20 m-6 text-white text-xl w-fit font-semibold hover:-" type="reset"
+              onClick={()=>
+              {
+                    setBusinessName(null);
+                    setOwnerName(null);
+                    setContactNumber(null);
+                    setCity(null);
+                    setState(null);
+                    setPin(null);
+                    setAddress(null);
+                    setWorkingDays([]);
+                    setOpenTime(null);
+                    setEndTime(null);
+
+                    setStateid(null);
+                    setCityid(null);
+
+                    setStateIndex(null);
+                    setCityIndex(null);
+
+                    setCityList([]);
+          
+              }}
+            >
+              Reset Form
+            </button>
           </section>
           {/* <div onClick={loggOut}>logg Out</div> */}
         </form>
@@ -383,7 +419,7 @@ const UpdateProfile = () => {
       navigate("/createuser");
     } else {
       updateCurrentUser(tempUser);
-      console.log(tempUser.email);
+      // console.log(tempUser.email);
       setEmail(tempUser.email);
     }
   }, []);

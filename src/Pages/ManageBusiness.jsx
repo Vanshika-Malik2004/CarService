@@ -6,7 +6,8 @@ import { supabase } from "../SupabaseConfig";
 import { toast } from "react-toastify";
 import { GetState } from "react-country-state-city";
 import { GetCity } from "react-country-state-city";
-import ProfileImage from "../ProviderDashboard/ProfileImage";
+import dayjs from "dayjs";
+
 const weekDays = [
   { value: "monday", tag: "M", isSelected: false },
   { value: "tuesday", tag: "T", isSelected: false },
@@ -47,24 +48,40 @@ const ManageBusiness = () => {
 
  
 
-  const loggOut = async () => {
-    await signOutUser();
-    toast.success("Logged out successfully !", {
-      toastId: "Logout",
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-    navigate("/login/user");
-  };
+  // const loggOut = async () => {
+  //   await signOutUser();
+  //   toast.success("Logged out successfully !", {
+  //     toastId: "Logout",
+  //     position: "top-right",
+  //     autoClose: 5000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //     theme: "colored",
+  //   });
+  //   navigate("/login/user");
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(!businessName || !address || !pin || !state || !city || !ownerName || !contactNumber || !openTime || !endTime || !weekDays.length)
+    {
+      toast.error("Error !\n" + "All fileds are compulsory ", {
+        toastId: "ManageBusinessRegisterError",
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
+    
     const sendData = {
       name: businessName,
       email: email,
@@ -91,7 +108,7 @@ const ManageBusiness = () => {
         .from("TimeSlotTable")
         .insert([timeSlotData])
         .select();
-      if (t.data) {
+      if (!t.error) {
         toast.success("Successfully registered busiess !", {
           toastId: "SuccessfullyRegisteredBusiness",
           position: "top-right",
@@ -105,7 +122,7 @@ const ManageBusiness = () => {
         });
         console.log(t.data);
       } else {
-        toast.error("Error !\n" + t.error, {
+        toast.error("Error !\n" + t.error.message, {
           toastId: "ManageBusinessRegisterError",
           position: "top-right",
           autoClose: 5000,
@@ -118,9 +135,9 @@ const ManageBusiness = () => {
         });
         console.log(t.error);
       }
-      navigate("/dashboard/provider/");
+      navigate("/dashboard/provider/update");
     } else {
-      toast.error("Error !\n" + error, {
+      toast.error("Error !\n" + error.message, {
         toastId: "ManageBusinessSecondError",
         position: "top-right",
         autoClose: 5000,
@@ -158,7 +175,6 @@ const ManageBusiness = () => {
             let's register your business
           </h1>
         </div>
-        <ProfileImage />
         <form
           className="flex flex-row gap-6"
           onSubmit={(e) => {
@@ -173,6 +189,7 @@ const ManageBusiness = () => {
                 className={inputClass}
                 type="text"
                 value={businessName}
+                
                 onChange={(e) => {
                   setBusinessName(e.target.value);
                 }}
@@ -300,10 +317,12 @@ const ManageBusiness = () => {
             {/*END TIME */}
             <label className={lableClass}>
               End Time
+
               <input
                 type="time"
                 className={inputClass}
                 value={endTime}
+                disabled={!openTime}
                 onChange={(e) => {
                   setEndTime(e.target.value);
                 }}
@@ -317,7 +336,7 @@ const ManageBusiness = () => {
               Submit
             </button>
           </section>
-          <div onClick={loggOut}>logg Out</div>
+          {/* <div onClick={loggOut}>logg Out</div> */}
         </form>
       </>
     );
