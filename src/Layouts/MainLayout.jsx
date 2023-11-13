@@ -6,8 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 const MainLayout = () => {
   return (
     <>
-      <ToastContainer/>
-      <Outlet />;
+      <ToastContainer />
+      <Outlet />
     </>
   );
 };
