@@ -180,18 +180,21 @@ const HomePage = () => {
         <div className="w-full flex justify-between py-6 px-10 items-center gap-10">
           <img src={CarSeviceImg} className="max-h-auto max-w-sm"></img>
           <div>
-            <h1 className="text-start text-2xl font-bold text-red-800">
+            <h1 className="text-start text-3xl font-bold text-red-800 py-6">
               Auto Assurance
             </h1>
-            <p className="text-start max-w-2xl">
-              Automobile services play a crucial role in ensuring the longevity,
-              efficiency, and safety of vehicles. Regular maintenance and
-              servicing are essential for identifying and addressing potential
-              issues before they escalate, preventing unexpected breakdowns, and
-              preserving the overall health of the vehicle. Professional auto
-              services encompass a range of tasks, from routine oil changes and
-              brake inspections to more complex diagnostics and repairs.
-            </p>
+            <div>
+              <p className="text-start max-w-2xl font-semibold">
+                Automobile services play a crucial role in ensuring the
+                longevity, efficiency, and safety of vehicles. Regular
+                maintenance and servicing are essential for identifying and
+                addressing potential issues before they escalate, preventing
+                unexpected breakdowns, and preserving the overall health of the
+                vehicle. Professional auto services encompass a range of tasks,
+                from routine oil changes and brake inspections to more complex
+                diagnostics and repairs.
+              </p>
+            </div>
           </div>
         </div>
         <div
@@ -202,7 +205,7 @@ const HomePage = () => {
             <h2 className="text-5xl font-bold text-white align-center text-center">
               AUTO REPAIR SERVICES
             </h2>
-            <p className="text-sm text-slate-100 max-w-2xl align-middle text-center">
+            <p className="text-sm text-slate-300 max-w-2xl align-middle text-center">
               We Offer A Wide Range Of Services To Help You Get Back On The Road
               Quickly And Safely.
             </p>
