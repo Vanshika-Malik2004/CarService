@@ -6,6 +6,7 @@ import { supabase } from "../SupabaseConfig";
 import { toast } from "react-toastify";
 import { GetState } from "react-country-state-city";
 import { GetCity } from "react-country-state-city";
+import ProfileImage from "../ProviderDashboard/ProfileImage";
 const weekDays = [
   { value: "monday", tag: "M", isSelected: false },
   { value: "tuesday", tag: "T", isSelected: false },
@@ -43,6 +44,8 @@ const ManageBusiness = () => {
   const [countriesList, setCountriesList] = useState([]);
   const [stateList, setStateList] = useState([]);
   const [cityList, setCityList] = useState([]);
+
+ 
 
   const loggOut = async () => {
     await signOutUser();
@@ -155,6 +158,7 @@ const ManageBusiness = () => {
             let's register your business
           </h1>
         </div>
+        <ProfileImage />
         <form
           className="flex flex-row gap-6"
           onSubmit={(e) => {

@@ -47,18 +47,19 @@ const UpdateProfile = () => {
 
   const [pid, setPid] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
       const tempUser = JSON.parse(sessionStorage.getItem("currentUser"));
       const getData = async () => {
-        console.log("email", currentUser.email);
+        //   console.log("email", currentUser.email);
         const { data, error } = await supabase
-          .from("ServiceProvider")
-          .select("*")
-          .eq("email", currentUser.email);
+        .from("ServiceProvider")
+        .select("*")
+        .eq("email", tempUser.email);
         setPid(data[0].id);
-        // console.log(data)
+        console.log("sdfds")
+        console.log(data)
         if (error) {
-            
+
           console.log("error: ", error);
         } else {
           console.log(data);
@@ -79,13 +80,12 @@ const UpdateProfile = () => {
       navigate("/login/user");
     } else {
       updateCurrentUser(tempUser);
-
-      getData();
-
+      
       // console.log(tempUser.email);
       // console.log(currentUser);
     }
-  }, []);
+    getData();
+}, []);
 
   //   const loggOut = async () => {
   //     await signOutUser();

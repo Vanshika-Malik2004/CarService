@@ -53,7 +53,7 @@ const DashBoardConsumer = () => {
     }
   }, []);
 
-  return <>{currentUser ? renderData() : null}</>;
+  return (<>{currentUser ? renderData() : null}</>)
 };
 
 export default DashBoardConsumer;

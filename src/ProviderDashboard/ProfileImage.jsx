@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const ProfileImage = ({ providerId }) => {
+  
   const [preview, setPreview] = useState(null);
   useEffect(() => {
     const getPreview = async () => {
