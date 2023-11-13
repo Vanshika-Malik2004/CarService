@@ -79,7 +79,7 @@ const HomePage = () => {
   return (
     <div className="flex flex-col justify-center h-fit max-w-screen relative items-center">
       <nav
-        className={`fixed top-0 w-screen px-10 py-2 z-50 transition-all duration-500 flex justify-between  ${
+        className={`fixed top-0 w-screen px-10 z-50 transition-all duration-500 flex justify-between  ${
           scrollY > 0
             ? "bg-white  backdrop-filter backdrop-blur-lg bg-opacity-30 border-b border-gray-200"
             : "bg-white"
@@ -90,15 +90,30 @@ const HomePage = () => {
           <p className="text-xl font-bold py-2">Your Logo</p>
           {/* Add more navigation links or components */}
         </div>
-        <div className="flex justify-center gap-8 py-2">
-          <p>About</p>
-          <p>Services</p>
-          <p>Contact Us</p>
+        <div className="flex justify-center gap-8">
+          <a
+            href="#about"
+            className="hover:border-b-4 hover:border-red-800 py-4"
+          >
+            About
+          </a>
+          <a
+            href="#service"
+            className="hover:border-b-4 hover:border-red-800 py-4"
+          >
+            Services
+          </a>
+          <a className="border-b-4 hover:border-red-800 py-4 border-transparent">
+            Contact Us
+          </a>
         </div>
-        <div>
-          <button className="py-2 px-6 rounded-lg  text-white bg-red-700 first-letter: transition-all duration-300 ease-in-out hover:scale-95">
-            SignIn
-          </button>
+        <div className="my-2">
+          <Link to="/login/user">
+            {" "}
+            <button className="py-2 px-6 rounded-lg  text-white bg-red-700 first-letter: transition-all duration-300 ease-in-out hover:scale-95">
+              SignIn
+            </button>
+          </Link>
         </div>
       </nav>
       {/* .SignIn {
@@ -120,12 +135,12 @@ const HomePage = () => {
           backgroundImage: `url(${BackgroundImage})`,
         }}
       >
-        <div className="flex justify-center items-start flex-col opacity-80 bg-black absolute z-10  w-full top-0 left-0  h-screen px-12">
+        <div className="flex justify-center items-start flex-col opacity-80 bg-black absolute z-10  w-full top-0 left-0  h-screen px-12 pt-12">
           <h1 className="text-white text-5xl font-bold min-w-max leading-tight">
             Revive your Ride: <br /> Expert Car Servicing <br />
             at Your Doorstep!
           </h1>
-          <p className="text-white max-w-xl tracking-wide text-start font-light  leading-tight my-4 text-m">
+          <p className="text-white max-w-3xl tracking-wide text-start font-light  leading-tight my-4 text-m">
             Welcome to our car servicing website, your one-stop destination for
             all your automotive maintenance needs. Whether it's routine
             maintenance, repairs, or specialized services, we provide reliable
@@ -162,7 +177,10 @@ const HomePage = () => {
       </div>
 
       {/*about us section */}
-      <div className="bg-white w-full h-fit  flex flex-col justify-start items-center p-5 gap-6">
+      <div
+        className="bg-white w-full h-fit  flex flex-col justify-start items-center p-5 gap-6"
+        id="about"
+      >
         <h1 className=" text-5xl font-bold text-black p-3 border-red-600 border-b-8">
           About us
         </h1>
@@ -176,7 +194,10 @@ const HomePage = () => {
       </div>
 
       {/*OUR SERVICES */}
-      <div className="bg-slate-100 w-full h-fit  flex flex-col justify-start items-center p-5 gap-6">
+      <div
+        className="bg-slate-100 w-full h-fit  flex flex-col justify-start items-center p-5 gap-6"
+        id="service"
+      >
         <h2 className="text-5xl font-bold text-black p-3 border-red-600 border-b-8">
           Our Services
         </h2>
