@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import { Typography } from "@mui/material";
 import { toast } from "react-toastify";
+import NavbarForProviderDashboard from "./NavbarForProviderDashboard";
 const ProviderDashboard = () => {
   const navigate = useNavigate();
   const { signOutUser, currentUser, updateCurrentUser } =
@@ -27,21 +28,22 @@ const ProviderDashboard = () => {
   const renderData = () => {
     return (
       <>
-        <div className="flex justify-between m-3 p-2">
+        <div className="flex justify-center items-center w-full px-20 pt-16 h-full bg-slate-100 pb-10">
+        {<NavbarForProviderDashboard/>}
+        {/* <div className="flex justify-between m-3 p-2">
           <Typography>Provider Dashboard</Typography>
 
           <button
             onClick={loggOut}><Typography>Logout</Typography>
           </button>
-        </div>
-        <nav className="flex justify-evenly m-5">
-          <Link to="manageBusiness">Manage Buisness</Link>
+        </div> */}
+        {/* <nav className="flex justify-evenly m-5">
+          <Link to="update">Update Profile</Link>
           <Link to="myServices">My Services</Link>
           <Link to="myAppointments">My Appointments</Link>
-          {/* <Link to="/">My Services</Link> */}
-          {/* <Link to="/dashboard/user">Go to User Dashboard</Link> */}
-        </nav>
+        </nav> */}
         <Outlet />
+        </div>
       </>
     );
   };

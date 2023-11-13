@@ -8,21 +8,21 @@ const DashBoardConsumer = () => {
   const navigate = useNavigate();
   const { signOutUser, currentUser, updateCurrentUser } =
     useContext(AuthContext);
-  const loggOut = async () => {
-    await signOutUser();
-    toast.success("Logged out successfully !", {
-      toastId: "Logout",
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-    navigate("/login/user");
-  };
+  // const loggOut = async () => {
+  //   await signOutUser();
+  //   toast.success("Logged out successfully !", {
+  //     toastId: "Logout",
+  //     position: "top-right",
+  //     autoClose: 5000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //     theme: "colored",
+  //   });
+  //   navigate("/login/user");
+  // };
 
   const renderData = () => {
     return (

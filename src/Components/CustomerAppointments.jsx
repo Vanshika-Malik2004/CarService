@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import Rating from "@mui/material/Rating";
 
 const columns = [
-  { id: "id", label: "ID", minWidth: 30 },
+  { id: "id", label: "SI", minWidth: 30 },
   { id: "serviceID", label: "Service ID", minWidth: 30, fontWeight: "bold" },
   {
     id: "consumerEmail",
@@ -227,8 +227,7 @@ export default function CustomerAppointments() {
         >
           <TableContainer
             sx={{
-              maxHeight: 440,
-              overflow: "hidden",
+              maxHeight: 440
             }}
           >
             <Table stickyHeader aria-label="sticky table">
@@ -252,7 +251,7 @@ export default function CustomerAppointments() {
                 {rowsPending &&
                   rowsPending
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
+                    .map((row,index) => {
                       return (
                         <TableRow
                           hover
@@ -260,7 +259,10 @@ export default function CustomerAppointments() {
                           tabIndex={-1}
                           key={row.code}
                         >
-                          {columns.map((column) => {
+                            <TableCell key='index' align='left'>
+                              {index+1}
+                            </TableCell>
+                          {columns.slice(1).map((column) => {
                             const value = row[column.id];
                             return (
                               <TableCell key={column.id} align={column.align}>
@@ -278,12 +280,7 @@ export default function CustomerAppointments() {
                                     >
                                       Cancel
                                     </Button>
-                                    {/* <button className="flex mb-1 dang" onClick={()=>takeAction(row['id'],'Completed')}>
-                                  Completed
-                                </button>
-                                <button className="flex mt-1" onClick={()=>takeAction(row['id'],'Cancel')}>
-                                  Cancel
-                                </button> */}
+
                                   </div>
                                 ) : column.format &&
                                   typeof value === "number" ? (
@@ -318,10 +315,10 @@ export default function CustomerAppointments() {
           Completed and Canceled Appointments
         </h1>
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
-          <TableContainer sx={{ maxHeight: 440, overflow: "hidden" }}>
+          <TableContainer sx={{ maxHeight: 440}}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
-                <TableRow sx={{}}>
+                <TableRow >
                   {columns.slice(0, -1).map((column) => (
                     <TableCell
                       key={column.id}
@@ -337,7 +334,7 @@ export default function CustomerAppointments() {
                 {rows &&
                   rows
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
+                    .map((row,index) => {
                       return (
                         <TableRow
                           hover
@@ -345,32 +342,47 @@ export default function CustomerAppointments() {
                           tabIndex={-1}
                           key={row.code}
                         >
-                          {columns.slice(0, -1).map((column) => {
+                        <TableCell key='index' align='left'>
+                        {index+1}
+                      </TableCell>
+                          {columns.slice(1, -1).map((column) => {
                             const value = row[column.id];
-                            if (column.id == "Status" && value == "Completed") {
-                              return (
-                                <TableCell key={column.id}>
-                                  <span className="flex justify-center">
-                                    {value}
-                                  </span>
-                                  {!row["Rating"] && (
-                                    <Rating
-                                      name="no-value"
-                                      value={null}
-                                      onChange={(ev, nvalue) => {
-                                        updateRating(row, nvalue);
-                                      }}
-                                    />
-                                  )}
-                                  {row["Rating"] && (
-                                    <Rating
-                                      name="read-only"
-                                      value={row["Rating"]}
-                                      readOnly
-                                    />
-                                  )}
-                                </TableCell>
-                              );
+                            if (column.id == "Status") {
+                              if(value == 'Completed')
+                              {
+                                return (
+                                  <TableCell key={column.id}>
+                                    <span className="flex justify-center text-green-800">
+                                      {value}
+                                    </span>
+                                    {!row["Rating"] && (
+                                      <Rating
+                                        name="no-value"
+                                        value={null}
+                                        onChange={(ev, nvalue) => {
+                                          updateRating(row, nvalue);
+                                        }}
+                                      />
+                                    )}
+                                    {row["Rating"] && (
+                                      <Rating
+                                        name="read-only"
+                                        value={row["Rating"]}
+                                        readOnly
+                                      />
+                                    )}
+                                  </TableCell>
+                                );
+                              } else 
+                              {
+                                return (
+                                  <TableCell key={column.id} align={column.align}>
+                                    <span className="flex justify-center text-red-800">
+                                      {value}
+                                    </span>
+                                  </TableCell>
+                                )
+                              }
                             }
                             return (
                               <TableCell key={column.id} align={column.align}>

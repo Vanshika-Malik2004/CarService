@@ -57,7 +57,7 @@ const SelectDateTime = ({ book, providerId }) => {
   const handleSubmit = () => {
     // console.log("handle submit from select data and time")
 
-    // console.log(time)
+    console.log(time)
 
     book(date, time);
   };

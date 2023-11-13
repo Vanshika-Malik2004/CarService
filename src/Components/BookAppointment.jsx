@@ -137,6 +137,7 @@ export default function BookAppointment() {
   const book = async (row, date, time) => {
     // console.log(row);
     // console.log(currentUser);
+    console.log("inside book")
     const { error } = await supabase
       .from("AppointmentsTable")
       .insert([
@@ -248,6 +249,7 @@ export default function BookAppointment() {
             <SelectDateTime
               providerId={id}
               book={(date, time) => {
+                console.log("passed fun")
                 book(row, date, time);
               }}
             />

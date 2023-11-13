@@ -185,7 +185,9 @@ export default function MyServices() {
   const handleClose = () => setOpen(false);
   
   return (
-    <>
+    <div className="max-w-5xl flex flex-col gap-10 w-full h-fit bg-gray-800 text-white my-6 rounded-lg p-10">
+      <h1 className="p-4 text-3xl font-bold">Listed Services</h1>
+
     <Modal
         open={open}
         onClose={()=>handleClose}
@@ -200,7 +202,7 @@ export default function MyServices() {
       <AddIcon />
     </Fab>}
       <TableContainer sx={{ maxHeight: 440 }}>
-        Listed Services
+        
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -209,6 +211,9 @@ export default function MyServices() {
                   key={column.id}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
+                  sx={{
+                    fontWeight:"bold",
+                  }}
                 >
                   {column.label}
                 </TableCell>
@@ -226,13 +231,12 @@ export default function MyServices() {
                     </TableCell>
                     {columns.slice(1).map((column) => {
                       const value = row[column.id];
-                      return (
-                        
+                      return (  
                         <TableCell key={column.id} align={column.align}>
                           {
                             (column.id === 'action')?
                             (<div className='flex flex-col gap-2'>
-                                      <Button variant="outlined" color="error" onClick={()=>takeAction(row['ServiceID'])}>
+                                      <Button variant="contained" color="error" onClick={()=>takeAction(row['ServiceID'])}>
                                         Remove
                                       </Button>
                                 {/* <button className="flex mb-1 dang" onClick={()=>takeAction(row['id'],'Completed')}>
@@ -274,7 +278,7 @@ export default function MyServices() {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
-    </>
+    </div>
   );
 }
 
