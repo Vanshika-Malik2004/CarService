@@ -15,47 +15,46 @@ import { toast } from "react-toastify";
 import Rating from "@mui/material/Rating";
 
 const columns = [
-  { id: "id", label: "SI", minWidth: 70 },
-  { id: "serviceID", label: "Service ID", minWidth: 70 },
+  { id: "serviceID", label: "Service ID", minWidth: 10 },
   {
     id: "consumerEmail",
     label: "Consumer Email",
-    minWidth: 170,
+    minWidth: 80,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     id: "consumerContactNumber",
     label: "Consumer Contact Number",
-    minWidth: 170,
+    minWidth: 80,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     id: "AppointmentDate",
     label: "Appointment Date",
-    minWidth: 170,
+    minWidth: 80,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     id: "AppointmentTime",
     label: "Appointment Time",
-    minWidth: 170,
+    minWidth: 80,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     id: "Status",
     label: "Status",
-    minWidth: 170,
+    minWidth: 80,
     align: "center",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     id: "action",
     label: "Take Action",
-    minWidth: 170,
+    minWidth: 80,
     align: "cetner",
   },
 ];
@@ -196,7 +195,7 @@ export default function Appointments() {
   };
 
   return (
-    <div className="max-w-7xl flex flex-col gap-10 w-full h-fit bg-gray-800 text-white my-6 rounded-lg p-10">
+    <div className="max-w-4xl flex flex-col gap-10 w-full h-fit bg-gray-800 text-white my-6 rounded-lg p-10">
       <h1 className="p-4 text-3xl font-bold">Pending Appointments</h1>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
@@ -327,33 +326,29 @@ export default function Appointments() {
                         </TableCell>
                         {columns.slice(1, -1).map((column) => {
                           const value = row[column.id];
-                          if (column.id == "Status") 
-                          {
-                            if(value == 'Completed')
-                            {
+                          if (column.id == "Status") {
+                            if (value == "Completed") {
                               return (
-                              <TableCell key={column.id} align={column.align}>
-                                <span className="flex justify-center text-green-800">
-                                  {value}
-                                </span>
-                                
-                                      <Rating
-                                        name="read-only"
-                                        value={row["Rating"]}
-                                        readOnly
-                                      />
-                                    
-                              </TableCell>
-                              )
+                                <TableCell key={column.id} align={column.align}>
+                                  <span className="flex justify-center text-green-800">
+                                    {value}
+                                  </span>
+
+                                  <Rating
+                                    name="read-only"
+                                    value={row["Rating"]}
+                                    readOnly
+                                  />
+                                </TableCell>
+                              );
                             } else {
                               return (
-                              <TableCell key={column.id} align={column.align}>
-                                <span className="flex justify-center text-red-800">
-                                  {value}
-                                </span>
-                              </TableCell>
-                              )
-
+                                <TableCell key={column.id} align={column.align}>
+                                  <span className="flex justify-center text-red-800">
+                                    {value}
+                                  </span>
+                                </TableCell>
+                              );
                             }
                           }
                           return (
