@@ -11,8 +11,8 @@ const ProviderDashboard = () => {
     useContext(AuthContext);
   const loggOut = async () => {
     await signOutUser();
-    toast.success('Logged out successfully !', {
-      toastId:'Logout',
+    toast.success("Logged out successfully !", {
+      toastId: "Logout",
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -21,51 +21,51 @@ const ProviderDashboard = () => {
       draggable: true,
       progress: undefined,
       theme: "colored",
-      });
+    });
     navigate("/login/user");
   };
 
   const renderData = () => {
     return (
       <>
-        <div className="flex justify-center items-center w-full px-20 pt-16 h-full bg-slate-100 pb-10">
-        {<NavbarForProviderDashboard/>}
-        {/* <div className="flex justify-between m-3 p-2">
+        <div className="w-full h-fit flex flex-col justify-center items-center bg-slate-100">
+          {<NavbarForProviderDashboard />}
+          {/* <div className="flex justify-between m-3 p-2">
           <Typography>Provider Dashboard</Typography>
 
           <button
             onClick={loggOut}><Typography>Logout</Typography>
           </button>
         </div> */}
-        {/* <nav className="flex justify-evenly m-5">
+          {/* <nav className="flex justify-evenly m-5">
           <Link to="update">Update Profile</Link>
           <Link to="myServices">My Services</Link>
           <Link to="myAppointments">My Appointments</Link>
         </nav> */}
-        <Outlet />
+          <Outlet />
         </div>
       </>
     );
   };
   useEffect(() => {
     const tempUser = JSON.parse(sessionStorage.getItem("currentUser"));
-      if (!tempUser) {
-        toast.error('First Login !', {
-          toastId:'FirstLogin',
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          });
+    if (!tempUser) {
+      toast.error("First Login !", {
+        toastId: "FirstLogin",
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       navigate("/login/user");
     } else {
       if (tempUser.user_metadata.role != "service_provider") {
-        toast.info('Only Service providers can access this page', {
-          toastId:'InfoToastProvidersOnly',
+        toast.info("Only Service providers can access this page", {
+          toastId: "InfoToastProvidersOnly",
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -74,14 +74,18 @@ const ProviderDashboard = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
-          });
+        });
         navigate("/dashboard/user");
       }
       updateCurrentUser(tempUser);
     }
   }, []);
 
-  return <>{currentUser ? renderData() : null}</>;
+  return (
+    <div className="h-full py-12 bg-slate-100">
+      {currentUser ? renderData() : null}
+    </div>
+  );
 };
 
 export default ProviderDashboard;

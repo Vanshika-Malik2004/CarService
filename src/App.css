@@ -1,9 +1,14 @@
 html {
   scroll-behavior: smooth;
+  height: 100%;
 }
 body {
   overflow-x: hidden;
   scroll-behavior: smooth;
+  height: 100%;
+}
+#root {
+  height: 100%;
 }
 .grid-container {
   display: grid;

@@ -16,8 +16,8 @@ const weekDays = [
   { value: "saturday", tag: "Sat", isSelected: false },
   { value: "Sunday", tag: "S", isSelected: false },
 ];
-const lableClass = "font-sans	font-medium font text-lg m-4";
-const inputClass = "border border-black-200 py-0.5 m-2 w-60 max-w-fit ";
+const lableClass = "font-sans	font-medium font text-sm mx-4";
+const inputClass = "border border-black-200 py-1 w-72 max-w-xl";
 const UpdateProfile = () => {
   const navigate = useNavigate();
   const { signOutUser, currentUser, updateCurrentUser } =
@@ -192,7 +192,7 @@ const UpdateProfile = () => {
   };
   const renderWeekDays = () => {
     return (
-      <div className="grid-container-weekDays w-full">
+      <div className="grid-container-weekDays w-full items-center justify-center">
         {weekDays.map((day, ind) => {
           return (
             <WeekDayButton
@@ -209,56 +209,67 @@ const UpdateProfile = () => {
   const renderData = () => {
     return (
       <>
-        <div className="m-4">
-          <h1 className="custom_font text-rose-700">Update Your Profile</h1>
-        </div>
         <form
-          className="flex flex-row gap-6"
+          className="flex flex-row w-full "
           onSubmit={(e) => {
             handleSubmit(e);
           }}
         >
-          <section className="flex flex-col w-full gap-4 items-start justify-start">
-            {pid && <ProfileImage providerId={pid} />}
+          <section className="flex flex-col w-full gap-4  p-6 justify-start bg-white items-center">
+            <div className="">
+              <h1 className="custom_font text-red-700">Update Your Profile</h1>
+            </div>
             {/*BUSINESS NAME */}
-            <label className={lableClass}>
-              Business Name
-              <input
-                className={inputClass}
-                type="text"
-                value={businessName}
-                onChange={(e) => {
-                  setBusinessName(e.target.value);
-                }}
-              />
-            </label>
+            <input
+              className={inputClass}
+              type="text"
+              value={businessName}
+              onChange={(e) => {
+                setBusinessName(e.target.value);
+              }}
+              placeholder="enter your busines Name"
+            />
             {/*OWNER'S NAME */}
-            <label className={lableClass}>
-              Owner's name
-              <input
-                className={inputClass}
-                type="text"
-                value={ownerName}
-                onChange={(e) => {
-                  setOwnerName(e.target.value);
-                }}
-              />
-            </label>
+            <input
+              className={inputClass}
+              type="text"
+              value={ownerName}
+              onChange={(e) => {
+                setOwnerName(e.target.value);
+              }}
+              placeholder="enter Owner Name"
+            />
             {/*CONTACT NUMBER */}
-            <label className={lableClass}>
-              contactNumber
-              <input
-                className={inputClass}
-                type="text"
-                value={contactNumber}
-                onChange={(e) => {
-                  setContactNumber(e.target.value);
-                }}
-              />
-            </label>
+            <input
+              className={inputClass}
+              type="text"
+              value={contactNumber}
+              onChange={(e) => {
+                setContactNumber(e.target.value);
+              }}
+              placeholder="enter your Contact Number"
+            />
+            <input
+              className={inputClass}
+              type="email"
+              value={email}
+              disabled
+              onChange={(e) => {
+                setEmail(e.target);
+              }}
+            />
+            {pid && <ProfileImage providerId={pid} />}
+            <div className="w-full flex flex-col m-4 justify-center ">
+              <label className={lableClass}>
+                <p className="font-semibold text-xl mb-4">Workig Days</p>
+                {renderWeekDays()}
+              </label>
+            </div>
+          </section>
+          <section className="flex flex-col w-full bg-red-700 gap-6 justify-center items-start pt-10">
             {/*ADDRESS FIELD*/}
             <label className={lableClass}>
-              Business Address
+              <p className="text-white">Address</p>
               <input
                 type="text"
                 className={inputClass}
@@ -270,7 +281,7 @@ const UpdateProfile = () => {
             </label>
             {/*PINCODE */}
             <label className={lableClass}>
-              PinCode
+              <p className="text-white">Pincode</p>
               <input
                 type="number"
                 className={inputClass}
@@ -280,25 +291,11 @@ const UpdateProfile = () => {
                 }}
               />
             </label>
-          </section>
-
-          <section className="flex flex-col w-full">
-            <label className={lableClass}>
-              Email
-              <input
-                className={inputClass}
-                type="email"
-                value={email}
-                disabled
-                onChange={(e) => {
-                  setEmail(e.target);
-                }}
-              />
-            </label>
             {/*STATE  */}
             <label className={lableClass}>
-              State
+              <p className="text-white">State</p>
               <select
+                className="py-2 w-72 max-w-xl"
                 onChange={(e) => {
                   const state = stateList[e.target.value]; //here you will get full state object.
                   setStateid(state.id);
@@ -321,8 +318,9 @@ const UpdateProfile = () => {
             </label>
             {/*CITY TIME */}
             <label className={lableClass}>
-              City
+              <p className="text-white">City</p>
               <select
+                className=" py-2  w-72 max-w-xl"
                 onChange={(e) => {
                   const city = cityList[e.target.value]; //here you will get full city object.
                   setCity(city.name);
@@ -340,7 +338,7 @@ const UpdateProfile = () => {
             </label>
             {/*sTART TIME */}
             <label className={lableClass}>
-              Start Time
+              <p className="text-white">Start Time</p>
               <input
                 type="time"
                 className={inputClass}
@@ -352,7 +350,7 @@ const UpdateProfile = () => {
             </label>
             {/*END TIME */}
             <label className={lableClass}>
-              End Time
+              <p className="text-white">End Time</p>
               <input
                 type="time"
                 className={inputClass}
@@ -362,39 +360,38 @@ const UpdateProfile = () => {
                 }}
               />
             </label>
-            <label className={lableClass}>
-              Workig days
-              {renderWeekDays()}
-            </label>
-            <button className="bg-red-600 py-2 px-20 m-6 text-white text-xl w-fit font-semibold hover:-">
-              Submit
-            </button>
-            <button className="bg-red-600 py-2 px-20 m-6 text-white text-xl w-fit font-semibold hover:-" type="reset"
-              onClick={()=>
-              {
-                    setBusinessName(null);
-                    setOwnerName(null);
-                    setContactNumber(null);
-                    setCity(null);
-                    setState(null);
-                    setPin(null);
-                    setAddress(null);
-                    setWorkingDays([]);
-                    setOpenTime(null);
-                    setEndTime(null);
 
-                    setStateid(null);
-                    setCityid(null);
+            <div className="flex gap-4 p-4">
+              <button className="py-2 px-6 text-white text-xl w-fit font-semibold border-2 transition-all duration-300 ease-in-out hover:scale-95">
+                Submit
+              </button>
+              <button
+                className=" py-2 px-6 text-white text-xl w-fit font-semibold border-2 transition-all duration-300 ease-in-out hover:scale-95"
+                type="reset"
+                onClick={() => {
+                  setBusinessName(null);
+                  setOwnerName(null);
+                  setContactNumber(null);
+                  setCity(null);
+                  setState(null);
+                  setPin(null);
+                  setAddress(null);
+                  setWorkingDays([]);
+                  setOpenTime(null);
+                  setEndTime(null);
 
-                    setStateIndex(null);
-                    setCityIndex(null);
+                  setStateid(null);
+                  setCityid(null);
 
-                    setCityList([]);
-          
-              }}
-            >
-              Reset Form
-            </button>
+                  setStateIndex(null);
+                  setCityIndex(null);
+
+                  setCityList([]);
+                }}
+              >
+                Reset Form
+              </button>
+            </div>
           </section>
           {/* <div onClick={loggOut}>logg Out</div> */}
         </form>
@@ -424,7 +421,7 @@ const UpdateProfile = () => {
     }
   }, []);
   return (
-    <div className=" m-10 custom_shadows h-fit flex flex-col gap-0">
+    <div className="m-10 custom_shadows h-fit flex flex-col gap-0">
       {currentUser ? renderData() : null}
     </div>
   );

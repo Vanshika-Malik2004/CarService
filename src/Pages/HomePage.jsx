@@ -198,7 +198,7 @@ const HomePage = () => {
           </div>
         </div>
         <div
-          className=" w-full h-fit  flex flex-col justify-start items-center p-10 gap-8 bg-gray-900"
+          className=" w-full h-fit  flex flex-col justify-start items-center py-16 gap-8 bg-gray-900"
           id="service"
         >
           <div className="flex flex-col gap-4 justify-center">

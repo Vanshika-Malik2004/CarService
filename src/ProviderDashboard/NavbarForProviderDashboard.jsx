@@ -22,13 +22,28 @@ const NavbarForProviderDashboard = () => {
     });
     navigate("/login/user");
   };
+  const [scrollY, setScrollY] = useState(0);
 
+  const handleScroll = () => {
+    setScrollY(window.scrollY);
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
-    <nav className="flex backdrop-filter backdrop-blur-lg bg-opacity-30 border-b border-gray-200 justify-evenly fixed px-5 right-0 left-0 top-0 mb-20 bg-white z-10">
+    <nav
+      className={`fixed top-0 w-screen px-10 z-50 transition-all duration-500 flex justify-between  ${
+        scrollY > 0
+          ? "bg-white  backdrop-filter backdrop-blur-lg bg-opacity-30 border-b border-gray-200"
+          : "bg-white border-b border-gray-200"
+      }`}
+    >
       <div className="flex justify-between w-full">
         <h3 className="text-lg font-bold py-3">Logo</h3>
         <div className="flex w-auto space-x-4 text-gray-900 gap-4">
-          
           <Link
             to="update"
             className="font-semibold py-3 hover:border-b-2 hover:border-red-600"
@@ -57,7 +72,7 @@ const NavbarForProviderDashboard = () => {
           </button>
         </div>
       </div>
-{/*   Required for testing
+      {/*   Required for testing
       {(currentUser.user_metadata.role == 'service_provider') &&
           <Link to="/dashboard/provider">Provider Dashboard</Link>} */}
     </nav>

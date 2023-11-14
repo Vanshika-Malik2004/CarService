@@ -67,7 +67,7 @@ const RegisterUser = () => {
     setRole(e.target.value);
   };
   return (
-    <div className="w-screen h-screen flex flex-col justify-center items-center gap-12">
+    <div className="w-screen h-fit py-12 flex flex-col justify-center items-center gap-12">
       <h1 className="text-center bold text-5xl  p">Create Account</h1>
       <div className="flex flex-row justify-center items-center gap-12">
         <div>

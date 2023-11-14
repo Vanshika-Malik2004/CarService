@@ -53,7 +53,7 @@ const AllServiceProviders = () => {
   return (
     <div className="flex flex-col max-w-6xl w-full h-fit bg-white mt-6 rounded-sm p-10 align-center">
       <h1 className="font-bold text-4xl py-3">Explore Top Choices:</h1>
-      <div className="flex w-full gap-8">
+      <div className="flex w-full gap-8 h-fit">
         {/* <h6>Country</h6>
       <select
         onChange={(e) => {
@@ -158,7 +158,9 @@ const AllServiceProviders = () => {
                   id={f.id}
                   name={f.name}
                   address={f.city}
-                  rating={(f.NoOfFeedback == 0)?null : f.RatingS/f.NoOfFeedback}
+                  rating={
+                    f.NoOfFeedback == 0 ? null : f.RatingS / f.NoOfFeedback
+                  }
                 />
               );
             })
