@@ -57,8 +57,19 @@ export default function BookAppointment() {
   const { signOutUser, currentUser, updateCurrentUser } =
     React.useContext(AuthContext);
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    setRow(null);
+    setDate(null);
+    setTime(null);
+    console.log("close called");
+  };
+
+  const [date, setDate] = React.useState();
+  const [time, setTime] = React.useState();
 
   React.useEffect(() => {
     const tempUser = JSON.parse(sessionStorage.getItem("currentUser"));
@@ -134,10 +145,9 @@ export default function BookAppointment() {
     setRows(data);
   }
 
-  const book = async (row, date, time) => {
-    // console.log(row);
+  const book = async () => {
+    // console.log('row from book',row);
     // console.log(currentUser);
-    console.log("inside book")
     const { error } = await supabase
       .from("AppointmentsTable")
       .insert([
@@ -183,7 +193,7 @@ export default function BookAppointment() {
   };
   const takeAction = async (row) => {
     // console.log(row);
-
+    // console.log("reached take action ", row);
     setRow(row);
     handleOpen();
   };
@@ -246,13 +256,26 @@ export default function BookAppointment() {
             aria-describedby="modal-modal-description"
             className="backdrop-filter backdrop-blur-lg bg-opacity-30 bg-white z-10"
           >
-            <SelectDateTime
-              providerId={id}
-              book={(date, time) => {
-                console.log("passed fun")
-                book(row, date, time);
-              }}
-            />
+            <div>
+              {row && (
+                <SelectDateTime
+                  providerId={id}
+                  setDate={setDate}
+                  setTime={setTime}
+                >
+                  <>
+                    {row && date && time && (
+                      <button
+                        className="w-full align-middle text-white text-semibold text-xl mt-6 mb-2 bg-gradient-to-r py-3 from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg  px-5 text-center"
+                        onClick={book}
+                      >
+                        Book
+                      </button>
+                    )}
+                  </>
+                </SelectDateTime>
+              )}
+            </div>
           </Modal>
           <Paper sx={{ width: "100%", overflow: "hidden" }}>
             <TableContainer sx={{ maxHeight: 440 }}>

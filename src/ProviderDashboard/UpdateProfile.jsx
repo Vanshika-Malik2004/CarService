@@ -51,6 +51,7 @@ const UpdateProfile = () => {
     const tempUser = JSON.parse(sessionStorage.getItem("currentUser"));
     const getData = async () => {
       //   console.log("email", currentUser.email);
+
       const { data, error } = await supabase
         .from("ServiceProvider")
         .select("*")
@@ -107,7 +108,7 @@ const UpdateProfile = () => {
     e.preventDefault();
     const sendData = {
       //   name: businessName,
-      //   email: email,
+        email: email,
       //   address: address,
       //   pincode: pin,
       //   state: state,
@@ -128,7 +129,20 @@ const UpdateProfile = () => {
       .select();
     if (data) {
       console.log("data", data);
-
+    } else {
+      toast.error("Error !\n" + error, {
+        toastId: "UpdateProfileSecondError",
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      console.log("error", error);
+    }
       if (openTime || endTime || workingDays) {
         const timeSlotData = {
           // StartTime: openTime,
@@ -143,7 +157,7 @@ const UpdateProfile = () => {
         const t = await supabase
           .from("TimeSlotTable")
           .update([timeSlotData])
-          .eq("ProviderId", data[0].id)
+          .eq("ProviderId", pid)
           .select();
         if (!t.error) {
           console.log(t.data);
@@ -174,21 +188,7 @@ const UpdateProfile = () => {
         progress: undefined,
         theme: "colored",
       });
-      navigate("/dashboard/provider/");
-    } else {
-      toast.error("Error !\n" + error, {
-        toastId: "UpdateProfileSecondError",
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      console.log("error", error);
-    }
+      // navigate("/dashboard/provider/");
   };
   const renderWeekDays = () => {
     return (

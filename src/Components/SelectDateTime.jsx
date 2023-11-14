@@ -29,15 +29,15 @@ const weekDays = {
   "saturday":5,
   "sunday":6
 };
-const SelectDateTime = ({ book, providerId }) => {
-  const [date, setDate] = useState();
-  const [time, setTime] = useState();
+const SelectDateTime = ({ children,providerId,setDate,setTime }) => {
 
+  console.log("reached select date time")
   const [workingDays, setWorkingDays] = useState([]);
   const [minTime, setMin] = useState([]);
   const [maxTime, setMax] = useState([]);
 
   useEffect(() => {
+
     const getData = async () => {
       const { data, error } = await supabase.from("TimeSlotTable").select("*").eq('ProviderId',providerId);
       // console.log(data);
@@ -54,13 +54,7 @@ const SelectDateTime = ({ book, providerId }) => {
     getData();
   },[]);
 
-  const handleSubmit = () => {
-    // console.log("handle submit from select data and time")
 
-    console.log(time)
-
-    book(date, time);
-  };
   return (
     <div>
       <Box
@@ -72,7 +66,7 @@ const SelectDateTime = ({ book, providerId }) => {
           <h1 className="font-semibold text-xl">Book your Appointment</h1>
           <FaCar size={30} color="#DC143C" />
         </div>
-        <form onSubmit={handleSubmit}>
+        
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Box className="flex flex-col gap-4">
               <DatePicker
@@ -80,6 +74,7 @@ const SelectDateTime = ({ book, providerId }) => {
                 shouldDisableDate={(date) => {
                   return !workingDays.includes(date.day());
                 }}
+                minDate={dayjs()}
                 onChange={(newValue) => {
                   setDate(newValue);
                 }}
@@ -96,16 +91,7 @@ const SelectDateTime = ({ book, providerId }) => {
               />
             </Box>
           </LocalizationProvider>
-
-          {date && time && (
-            <button
-              className="w-full align-middle text-white text-semibold text-xl mt-6 mb-2 bg-gradient-to-r py-3 from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg  px-5 text-center"
-              onClick={handleSubmit}
-            >
-              Book
-            </button>
-          )}
-        </form>
+              {children}       
       </Box>
     </div>
   );
