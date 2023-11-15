@@ -7,14 +7,13 @@ import { Box } from "@mui/material";
 import { toast } from "react-toastify";
 import { FaTimes, FaCar } from "react-icons/fa";
 const lableClass = "font-sans	font-medium font text-lg m-4";
-const inputClass = "border border-black-200 py-2 m-2   px-8";
+const inputClass = "border border-black-200 py-2 m-2 px-6";
 const style = {
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
-  p: 8,
   justifyContent: "center",
   alignItems: "center",
+  p: 2,
 };
 
 const CreateNewService = ({ handleClose, pid, success }) => {
@@ -74,9 +73,10 @@ const CreateNewService = ({ handleClose, pid, success }) => {
       <button onClick={handleClose} className="absolute right-2 top-2">
         <FaTimes size={20} color="white" />
       </button>
-      <Box sx={style} flexDirection={"column"}>
-        <div className="flex justify-center items-center gap-4 w-full">
-          <span className="custom_font">register your service</span>
+
+      <Box sx={style} flexDirection={"column"} boxShadow={3} borderRadius={1}>
+        <div className="flex justify-center items-center gap-4 w-full px-4">
+          <span className="custom_font">Add Service</span>
           <span className="pt-2">
             {" "}
             <FaCar size={30} color="#DC2626" />
@@ -109,8 +109,8 @@ const CreateNewService = ({ handleClose, pid, success }) => {
             />
 
             <textarea
-              rows="8"
-              cols="32"
+              rows="4"
+              cols="28"
               className={inputClass + "flex"}
               type="text"
               value={description}
@@ -120,7 +120,7 @@ const CreateNewService = ({ handleClose, pid, success }) => {
               placeholder="Add Description"
             ></textarea>
 
-            <button className="bg-red-600 py-2 px-20 m-6 text-white text-xl w-fit font-semibold hover:-">
+            <button className="bg-red-700 w-3/4 my-2 py-3 rounded-sm text-white font-semibold text-xl transition-all duration-300 ease-in-out hover:scale-95">
               Submit
             </button>
           </section>
