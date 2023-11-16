@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ServiceImg from "../assets/service.svg";
-import { supabase } from "../SupabaseConfig";
 import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
 const LoginUser = () => {
