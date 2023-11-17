@@ -20,7 +20,15 @@ const AllServiceProviders = () => {
   const [countriesList, setCountriesList] = useState([]);
   const [stateList, setStateList] = useState([]);
   const [cityList, setCityList] = useState([]);
-
+  const loader = () => {
+    return (
+      <div className="lds-facebook">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    );
+  };
   useEffect(() => {
     // GetCountries().then((result) => {
     //   setCountriesList(result);
@@ -164,7 +172,7 @@ const AllServiceProviders = () => {
                 />
               );
             })
-          : null}
+          : loader()}
       </div>
     </div>
   );

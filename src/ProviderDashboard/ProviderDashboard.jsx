@@ -82,7 +82,7 @@ const ProviderDashboard = () => {
   }, []);
 
   return (
-    <div className="h-full py-12 bg-slate-100">
+    <div className="h-full py-36 bg-slate-100">
       {currentUser ? renderData() : null}
     </div>
   );
