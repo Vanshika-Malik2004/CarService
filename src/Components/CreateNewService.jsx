@@ -25,6 +25,20 @@ const CreateNewService = ({ handleClose, pid, success }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(serviceName==null || price==null || description==null)
+    {
+      toast.error("No filed can be left empty !\n" + error, {
+        toastId: "NewServiceNullError",
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
     const sendData = {
       "Service Name": serviceName,
       Price: price,

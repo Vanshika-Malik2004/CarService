@@ -80,7 +80,7 @@ const ProfileImage = ({ providerId }) => {
         variant="contained"
         startIcon={<CloudUploadIcon />}
       >
-        Upload file
+        Upload Image
         <VisuallyHiddenInput
           type="file"
           accept="image/*"

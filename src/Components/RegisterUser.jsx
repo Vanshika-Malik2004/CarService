@@ -14,7 +14,7 @@ const RegisterUser = () => {
   const navigate = useNavigate();
   const register = async (e) => {
     e.preventDefault();
-    if (email == null || password == null || phone == null) {
+    if (email == null || password == null || phone == null   || role == null) {
       toast.error("All the fields are cumpulsory !" + error, {
         toastId: "RegisterNullError",
         position: "top-right",
@@ -94,7 +94,7 @@ const RegisterUser = () => {
               <br />
               <input
                 required
-                type="text"
+                type="number"
                 placeholder="enter phone no"
                 value={phone}
                 className="border border-black-100 p-2 w-60"
