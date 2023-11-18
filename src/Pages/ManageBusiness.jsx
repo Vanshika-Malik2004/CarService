@@ -6,7 +6,8 @@ import { supabase } from "../SupabaseConfig";
 import { toast } from "react-toastify";
 import { GetState } from "react-country-state-city";
 import { GetCity } from "react-country-state-city";
-import dayjs from "dayjs";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { Button } from "@mui/material";
 
 const weekDays = [
   { value: "monday", tag: "M", isSelected: false },
@@ -38,7 +39,7 @@ const ManageBusiness = () => {
   const [countryid, setCountryid] = useState(101); // setting defalut country to india
   const [stateid, setStateid] = useState(null);
   const [cityid, setCityid] = useState(null);
-  
+
   const [stateIndex, setStateIndex] = useState(null);
   const [cityIndex, setCityIndex] = useState(null);
 
@@ -46,8 +47,7 @@ const ManageBusiness = () => {
   const [stateList, setStateList] = useState([]);
   const [cityList, setCityList] = useState([]);
 
- 
-
+  const [imgFile, setImgFile] = useState(null);
   // const loggOut = async () => {
   //   await signOutUser();
   //   toast.success("Logged out successfully !", {
@@ -66,8 +66,18 @@ const ManageBusiness = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(!businessName || !address || !pin || !state || !city || !ownerName || !contactNumber || !openTime || !endTime || !weekDays.length)
-    {
+    if (
+      !businessName ||
+      !address ||
+      !pin ||
+      !state ||
+      !city ||
+      !ownerName ||
+      !contactNumber ||
+      !openTime ||
+      !endTime ||
+      !weekDays.length
+    ) {
       toast.error("Error !\n" + "All fileds are compulsory ", {
         toastId: "ManageBusinessRegisterError",
         position: "top-right",
@@ -81,7 +91,7 @@ const ManageBusiness = () => {
       });
       return;
     }
-    
+
     const sendData = {
       name: businessName,
       email: email,
@@ -96,8 +106,31 @@ const ManageBusiness = () => {
       .from("ServiceProvider")
       .insert([sendData])
       .select();
+    console.log("data ",data);
     if (data) {
-      console.log("data", data);
+      if (data[0].ProfilePic) {
+          await supabase.storage
+  
+          .from("ProviderProfilePicture")
+          .remove(["profile/" + data[0].id + "/" + data[0].ProfilePic]);
+      }
+      await supabase.storage
+        .from("ProviderProfilePicture")
+        .upload("profile/" + data[0].id + "/" + imgFile.name, imgFile);
+      if (error) {
+        console.log(error);
+        // return;
+      } else {
+        await supabase
+        .from("ServiceProvider")
+        .update({ ProfilePic: imgFile.name })
+        .eq("id", data[0].id)
+        .select();
+        console.log(data);
+      }
+
+      
+      // console.log("data", data);
       const timeSlotData = {
         StartTime: openTime,
         EndTime: endTime,
@@ -170,6 +203,28 @@ const ManageBusiness = () => {
   const renderData = () => {
     return (
       <>
+        <div>
+          {imgFile && (
+            <img
+              src={window.URL.createObjectURL(imgFile)}
+              height={300}
+              width={300}
+            />
+          )}
+          <Button
+            component="label"
+            variant="contained"
+            startIcon={<CloudUploadIcon />}
+          >
+            Upload Image
+            <input
+              hidden
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImgFile(e.target.files[0])}
+            />
+          </Button>
+        </div>
         <div className="m-4">
           <h1 className="custom_font text-rose-700">
             let's register your business
@@ -189,7 +244,6 @@ const ManageBusiness = () => {
                 className={inputClass}
                 type="text"
                 value={businessName}
-                
                 onChange={(e) => {
                   setBusinessName(e.target.value);
                 }}
@@ -265,7 +319,7 @@ const ManageBusiness = () => {
                 onChange={(e) => {
                   const state = stateList[e.target.value]; //here you will get full state object.
                   setStateid(state.id);
-                  setState(state.name)
+                  setState(state.name);
                   setStateIndex(e.target.value);
                   GetCity(countryid, state.id).then((result) => {
                     setCityList(result);
@@ -290,8 +344,7 @@ const ManageBusiness = () => {
                   const city = cityList[e.target.value]; //here you will get full city object.
                   setCity(city.name);
                   setCityid(city.id);
-                  setCityIndex(e.target.value)
-
+                  setCityIndex(e.target.value);
                 }}
                 value={cityIndex}
               >
@@ -317,7 +370,6 @@ const ManageBusiness = () => {
             {/*END TIME */}
             <label className={lableClass}>
               End Time
-
               <input
                 type="time"
                 className={inputClass}
