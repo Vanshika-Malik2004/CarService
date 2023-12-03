@@ -108,7 +108,7 @@ const ManageBusiness = () => {
       .select();
     console.log("data ",data);
     if (data) {
-      if (data[0].ProfilePic) {
+      if(imgFile){if (data[0].ProfilePic) {
           await supabase.storage
   
           .from("ProviderProfilePicture")
@@ -127,7 +127,7 @@ const ManageBusiness = () => {
         .eq("id", data[0].id)
         .select();
         console.log(data);
-      }
+      }}
 
       
       // console.log("data", data);
